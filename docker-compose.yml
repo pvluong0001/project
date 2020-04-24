@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8081:80"
+    restart: "always"
+    volumes:
+      - ./server:/app
+    depends_on:
+      - main-mongo
+    environment:
+      NODE_ENV: dev
+    command: /bin/sh -c "yarn && yarn run dev"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8080:8080"
+    restart: "always"
+    volumes:
+      - ./frontend:/app
+    environment:
+      NODE_ENV: dev
+    command: /bin/sh -c "yarn && quasar dev"
+
+  main-mongo:
+    image: mongo
+    ports:
+      - "30001:27017"
+volumes:
+  mongodb:
+  mongodb_config:
+
+networks:
+  project:
+    driver: bridge

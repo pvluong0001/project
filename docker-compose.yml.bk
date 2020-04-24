@@ -1,0 +1,22 @@
+version: "2"
+
+services:
+  main-server:
+    build: .
+    ports:
+      - "8080:80"
+    restart: always
+    depends_on:
+      - main-mongo
+    volumes:
+      - ./server:/usr/src/app
+  main-mongo:
+    image: mongo
+    ports:
+      - "30001:27017"
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+volumes:
+  mongodb:
+  mongodb_config:

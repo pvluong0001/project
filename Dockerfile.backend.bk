@@ -1,0 +1,10 @@
+FROM node:12.13.1-alpine3.9 AS backend
+
+WORKDIR /app
+
+ONBUILD RUN apk add --no-cache --update nodejs yarn
+ONBUILD COPY ./server/package.json ./server/yarn.lock ./
+ONBUILD RUN yarn install
+
+EXPOSE 8080
+CMD ["yarn", "docker:start"]

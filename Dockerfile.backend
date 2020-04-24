@@ -1,0 +1,10 @@
+# ---- Base Node ----
+FROM node:13.7.0-alpine
+
+RUN apk update && apk add yarn
+RUN yarn add global nodemon
+# Create app directory
+RUN mkdir /app
+WORKDIR /app
+
+EXPOSE 8081
