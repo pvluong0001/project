@@ -1,20 +1,8 @@
 vcl 4.0;
 
-backend frontend {
+backend default {
     .host = "nginx";
     .port = "80";
-}
-
-backend api {
-    .host = "nginx";
-    .port = "81";
-}
-
-sub vcl_recv {
-    set req.backend_hint = frontend;
-    if (req.http.host == "localhost:81") {
-        set req.http.host = api;
-    }
 }
 
 sub vcl_deliver {

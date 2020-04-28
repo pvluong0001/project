@@ -40,6 +40,11 @@ export default {
       password: '123@123a'
     }
   }),
+  async mounted () {
+    const response = await this.$axios.get('http://www.json-generator.com/api/json/get/cgAdzIEuTC?indent=2')
+    // await fetch('http://www.json-generator.com/api/json/get/cgAdzIEuTC?indent=2')
+    console.log(response)
+  },
   methods: {
     login () {
       this.$store.dispatch('user/LOGIN', this.acc)

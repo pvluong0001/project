@@ -38,12 +38,23 @@ services:
     networks:
       - project
 
-  varnish:
+  varnish-frontend:
     build:
-      context: ./docker/varnish
+      context: ./docker/varnish/frontend
       dockerfile: Dockerfile
     ports:
       - "80:80"
+    depends_on:
+      - nginx
+    networks:
+      - project
+    restart: always
+
+  varnish-api:
+    build:
+      context: ./docker/varnish/api
+      dockerfile: Dockerfile
+    ports:
       - "81:80"
     depends_on:
       - nginx

@@ -9,3 +9,5 @@ api/logs/
 api/dist/
 api/src/logs/
 api/yarn-error.log
+
+docker-compose.yml
