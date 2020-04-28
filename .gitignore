@@ -4,8 +4,8 @@ frontend/node_modules/
 frontend/.quasar/
 frontend/yarn-error.log
 
-server/node_modules/
-server/logs/
-server/dist/
-server/src/logs/
-server/yarn-error.log
+api/node_modules/
+api/logs/
+api/dist/
+api/src/logs/
+api/yarn-error.log

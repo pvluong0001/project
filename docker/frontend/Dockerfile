@@ -1,8 +1,8 @@
 # develop stage
 FROM node:13.7.0-alpine
-RUN mkdir /app
-WORKDIR /app
+RUN mkdir /frontend
+WORKDIR /frontend
 RUN apk update && apk add yarn
 RUN yarn global add @quasar/cli
 
-EXPOSE 80
+EXPOSE 8080

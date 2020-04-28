@@ -71,6 +71,8 @@ module.exports = function (ctx) {
       // preloadChunks: false,
       // extractCSS: false,
 
+      preloadChunks: true,
+      gzip: true,
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
       extendWebpack (cfg) {
         cfg.module.rules.push({
@@ -89,7 +91,7 @@ module.exports = function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
-      port: 8080,
+      port: 80,
       open: false // opens browser window automatically
     },
 

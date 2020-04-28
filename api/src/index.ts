@@ -12,6 +12,6 @@ const app = new App([
     UserController,
     PermissionController,
     EventController
-], parseInt(process.env.PORT, 10) || 8080);
+], parseInt(process.env.PORT, 10) || 81);
 
 app.listen()

@@ -1,38 +1,62 @@
 version: "3.7"
 
 services:
-  backend:
+  api:
     build:
-      context: .
-      dockerfile: Dockerfile.backend
-    ports:
-      - "8081:80"
-    restart: "always"
+      context: ./docker/api
+      dockerfile: Dockerfile
+    restart: unless-stopped
     volumes:
-      - ./server:/app
+      - ./api:/api
     depends_on:
       - main-mongo
     environment:
       NODE_ENV: dev
     command: /bin/sh -c "yarn && yarn run dev"
+    networks:
+      - project
 
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    ports:
-      - "8080:8080"
-    restart: "always"
+      context: ./docker/frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
     volumes:
-      - ./frontend:/app
+      - ./frontend:/frontend
     environment:
       NODE_ENV: dev
     command: /bin/sh -c "yarn && quasar dev"
+    networks:
+      - project
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    restart: always
+    tty: true
+    networks:
+      - project
+
+  varnish:
+    build:
+      context: ./docker/varnish
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "81:80"
+    depends_on:
+      - nginx
+    networks:
+      - project
+    restart: always
 
   main-mongo:
     image: mongo
     ports:
       - "30001:27017"
+    networks:
+      - project
 volumes:
   mongodb:
   mongodb_config:
