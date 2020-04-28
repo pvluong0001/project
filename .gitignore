@@ -10,4 +10,7 @@ api/dist/
 api/src/logs/
 api/yarn-error.log
 
+docker/logs/
+docker/data/
+
 docker-compose.yml

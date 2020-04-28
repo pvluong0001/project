@@ -5,6 +5,12 @@ backend default {
     .port = "81";
 }
 
+sub vcl_recv {
+//    if (req.url == "/test") {
+//        return(pass);
+//    }
+}
+
 sub vcl_deliver {
     # Display hit/miss info
     if (obj.hits > 0) {
@@ -27,6 +33,11 @@ sub vcl_backend_response {
         set beresp.http.Cache-Control = "public; max-age=200";
         set beresp.ttl = 200s;
     }
+//    if (bereq.url == "/test") {
+//        set beresp.uncacheable = true;
+//        set beresp.ttl = 120s;
+//        return(deliver);
+//    }
     set beresp.http.Served-By = beresp.backend.name;
     set beresp.http.V-Cache-TTL = beresp.ttl;
     set beresp.http.V-Cache-Grace = beresp.grace;

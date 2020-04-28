@@ -37,6 +37,8 @@ services:
     tty: true
     networks:
       - project
+    volumes:
+      - ./docker/logs/:/var/log/nginx/
 
   varnish-frontend:
     build:
@@ -49,6 +51,8 @@ services:
     networks:
       - project
     restart: always
+    volumes:
+      - ./docker/varnish/frontend/default.vcl:/etc/varnish/default.vcl
 
   varnish-api:
     build:
@@ -61,6 +65,8 @@ services:
     networks:
       - project
     restart: always
+    volumes:
+      - ./docker/varnish/api/default.vcl:/etc/varnish/default.vcl
 
   main-mongo:
     image: mongo
@@ -68,9 +74,11 @@ services:
       - "30001:27017"
     networks:
       - project
+    volumes:
+      - mongodbdata:/data/db
 volumes:
-  mongodb:
-  mongodb_config:
+  mongodbdata:
+    name: "mongodbdata"
 
 networks:
   project:
