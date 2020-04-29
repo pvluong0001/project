@@ -14,7 +14,12 @@ export default class TestController extends BaseController {
         }
     ];
 
-    protected test(req: IRequest, res: Response) {
+    protected async test(req: IRequest, res: Response) {
+        const sleep = function(ms: number) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        await sleep(5000);
+
         return res.send('good')
     }
 
