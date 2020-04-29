@@ -10,6 +10,7 @@ import {apiResponse} from "./_helpers";
 import {logger} from './_helpers/logger';
 import cors from 'cors';
 import {corsOptions} from './_config/config';
+import redis from "redis";
 
 class App {
     public app: express.Application
@@ -18,6 +19,7 @@ class App {
         this.app = express()
 
         this.connectDb()
+        // this.connectRedis()
 
         this.setup()
 
@@ -53,8 +55,10 @@ class App {
         });
     }
 
+    // private connectRedis() {}
+
     private connectDb() {
-        mongoose.connect('mongodb://main-mongo:27017/product', {useNewUrlParser: true});
+        mongoose.connect('mongodb://mongo:27017/product', {useNewUrlParser: true});
 
         mongoose.set('useFindAndModify', true)
 

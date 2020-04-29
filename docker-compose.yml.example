@@ -9,9 +9,12 @@ services:
     volumes:
       - ./api:/api
     depends_on:
-      - main-mongo
+      - mongo
+      - redis
     environment:
       NODE_ENV: dev
+      REDIS_URL: "redis://redis:6379"
+      REDIS_PASSWORD: 123@!23a
     command: /bin/sh /entrypoint.sh
     networks:
       - project
@@ -68,7 +71,7 @@ services:
     volumes:
       - ./docker/varnish/api/default.vcl:/etc/varnish/default.vcl
 
-  main-mongo:
+  mongo:
     image: mongo
     ports:
       - "30001:27017"
@@ -76,9 +79,29 @@ services:
       - project
     volumes:
       - mongodbdata:/data/db
+
+  redis:
+    build:
+      context: ./docker/redis
+      dockerfile: Dockerfile
+    environment:
+      REDIS_PASSWORD: 123@!23a
+    restart: unless-stopped
+    volumes:
+    - redisdata:/data
+    ports:
+    - "63790:6379"
+    command: /bin/sh /entrypoint.sh
+    networks:
+      - project
+
 volumes:
   mongodbdata:
     name: "mongodbdata"
+    driver: local
+  redisdata:
+    name: "redisdata"
+    driver: local
 
 networks:
   project:

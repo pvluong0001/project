@@ -11,5 +11,5 @@ varnishncsa
 
 ### dump all db
 ```shell script
-docker-compose exec -T main-mongo mongodump --archive --gzip > dump.gz
+docker-compose exec -T mongo mongodump --archive --gzip > dump.gz
 ```

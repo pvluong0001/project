@@ -1,5 +1,6 @@
 import {Router, Application, Request, Response} from 'express'
 import {Model} from "mongoose";
+import {RedisClient} from 'redis';
 
 export interface Controller {
     router: Router;
@@ -68,6 +69,10 @@ export interface IApiResponse {
     err?: Error | any;
     req: IRequest;
     res: Response;
+}
+
+export interface AsyncRedisClient extends RedisClient {
+    [x: string]: any
 }
 
 export type TRoute = IRoute;

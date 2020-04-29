@@ -1,6 +1,7 @@
 import {Router, Response} from 'express'
 import {IRequest, TRoute} from "../_types";
 import BaseController from "./BaseController";
+import {redisClient} from "../_helpers/redis";
 
 export default class TestController extends BaseController {
     prefix = '/test';
@@ -20,7 +21,11 @@ export default class TestController extends BaseController {
         }
         await sleep(5000);
 
-        return res.send('good')
+        redisClient.set('luong3', 'lit');
+
+        const data = await redisClient.getAsync('luong');
+
+        return res.json({redisData: data})
     }
 
     constructor() {
