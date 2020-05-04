@@ -1,3 +1,3 @@
 #!/bin/bash
-yarn
-yarn run dev
+npm install
+nodemon .

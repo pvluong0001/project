@@ -1,19 +1,21 @@
-import dotenv from 'dotenv';
-import App from "./app";
-import AuthController from "./_controllers/AuthController";
-import UserController from "./_controllers/UserController";
-import PermissionController from "./_controllers/PermissionController";
-import EventController from "./_controllers/EventController";
-import TestController from "./_controllers/TestController";
+import {ApiApplication} from './application';
+import {ApplicationConfig} from '@loopback/core';
+import {RestServer} from "@loopback/rest";
 
-dotenv.config();
+export {ApiApplication};
 
-const app = new App([
-    AuthController,
-    UserController,
-    PermissionController,
-    EventController,
-    TestController
-], parseInt(process.env.PORT, 10) || 81);
+export async function main(options: ApplicationConfig = {}) {
+  const app = new ApiApplication(options);
+  const server = await app.getServer(RestServer);
+  server.bind('rest.port').to(81);
+  server.basePath('/v1')
+  // server.bind('rest.port').to(process.env.PORT);
+  await app.boot();
+  await app.start();
 
-app.listen()
+  const url = app.restServer.url;
+  console.log(`Server is running at ${url}`);
+  console.log(`Try ${url}/ping`);
+
+  return app;
+}

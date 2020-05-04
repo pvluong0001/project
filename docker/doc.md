@@ -13,3 +13,8 @@ varnishncsa
 ```shell script
 docker-compose exec -T mongo mongodump --archive --gzip > dump.gz
 ```
+
+### live reloading api
+```shell script
+docker-compose exec api npm run build:watch
+```

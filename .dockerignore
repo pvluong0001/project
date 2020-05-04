@@ -1,0 +1,11 @@
+# api
+api/node_modules
+api/npm-debug.log
+api/dist
+# Cache used by TypeScript's incremental build
+api/*.tsbuildinfo
+
+# frontend
+frontend/node_modules
+frontend/yarn-error.log
+frontend/.quasar
