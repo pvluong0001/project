@@ -15,6 +15,7 @@ services:
       NODE_ENV: dev
       REDIS_URL: "redis://redis:6379"
       REDIS_PASSWORD: 123@!23a
+      PORT: 81
     command: /bin/sh /entrypoint.sh
     networks:
       - project
@@ -88,9 +89,9 @@ services:
       REDIS_PASSWORD: 123@!23a
     restart: unless-stopped
     volumes:
-    - redisdata:/data
+      - redisdata:/data
     ports:
-    - "63790:6379"
+      - "63790:6379"
     command: /bin/sh /entrypoint.sh
     networks:
       - project

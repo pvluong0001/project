@@ -49,9 +49,4 @@ export class PingController {
       headers: Object.assign({}, this.req.headers),
     };
   }
-
-  @get('/test')
-  test(): string {
-    return 'mat khoang bao lau nhi';
-  }
 }

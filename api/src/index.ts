@@ -7,9 +7,8 @@ export {ApiApplication};
 export async function main(options: ApplicationConfig = {}) {
   const app = new ApiApplication(options);
   const server = await app.getServer(RestServer);
-  server.bind('rest.port').to(81);
   server.basePath('/v1')
-  // server.bind('rest.port').to(process.env.PORT);
+  server.bind('rest.port').to(process.env.PORT);
   await app.boot();
   await app.start();
 
