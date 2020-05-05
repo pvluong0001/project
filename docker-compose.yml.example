@@ -12,10 +12,8 @@ services:
       - mongo
       - redis
     environment:
-      NODE_ENV: dev
       REDIS_URL: "redis://redis:6379"
       REDIS_PASSWORD: 123@!23a
-      PORT: 81
     command: /bin/sh /entrypoint.sh
     networks:
       - project

@@ -1,27 +1,22 @@
-const application = require('./dist');
+import moduleAlias from './alias.config';
+require('dotenv').config();
+moduleAlias();
 
-module.exports = application;
+import express from 'express';
+import setUuidRequest from '@middleware/uuid.middleware';
+import morganConfig from '@config/morgan.config';
 
-if (require.main === module) {
-  // Run the application
-  const config = {
-    rest: {
-      port: +(process.env.PORT || 3000),
-      host: process.env.HOST,
-      // The `gracePeriodForClose` provides a graceful close for http/https
-      // servers with keep-alive clients. The default value is `Infinity`
-      // (don't force-close). If you want to immediately destroy all sockets
-      // upon stop, set its value to `0`.
-      // See https://www.npmjs.com/package/stoppable
-      gracePeriodForClose: 5000, // 5 seconds
-      openApiSpec: {
-        // useful when used with OpenAPI-to-GraphQL to locate your application
-        setServersFromRequest: true,
-      },
-    },
-  };
-  application.main(config).catch(err => {
-    console.error('Cannot start the application.', err);
-    process.exit(1);
-  });
-}
+const app = express();
+const port = process.env.PORT || 81;
+
+app.use(setUuidRequest);
+app.use(morganConfig(__dirname, 'storage/logs/access.log'));
+
+app.get('/', (req, res) => {
+  res.send('1232123 - edited - good');
+});
+
+app.listen(port, () => {
+  console.log(`server is runnning in port ${port}`);
+  console.log(`http://localhost:${port}`);
+});

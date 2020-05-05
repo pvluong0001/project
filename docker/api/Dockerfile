@@ -1,8 +1,8 @@
 # ---- Base Node ----
 FROM node:13.7.0-alpine
 
-RUN apk update && apk add npm
-RUN npm install -g nodemon
+RUN apk update && apk add yarn
+RUN yarn global add nodemon
 
 # Create app directory
 RUN mkdir /api

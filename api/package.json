@@ -1,55 +1,34 @@
 {
-  "name": "api",
-  "version": "1.0.0",
-  "description": "api",
-  "keywords": [
-    "loopback-application",
-    "loopback"
-  ],
-  "main": "index.js",
-  "engines": {
-    "node": ">=10"
-  },
+  "author": "Lit",
+  "license": "ISC",
   "scripts": {
-    "build": "lb-tsc",
-    "build:watch": "lb-tsc --watch",
-    "pretest": "npm run clean && npm run build",
-    "docker:build": "docker build -t api .",
-    "docker:run": "docker run -p 3000:3000 -d api",
-    "migrate": "node ./dist/migrate",
-    "prestart": "npm run build",
-    "start": "node -r source-map-support/register .",
-    "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
+    "transpile": "babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log",
+    "clean": "rimraf dist",
+    "build": "npm-run-all clean transpile",
+    "server": "node ./dist",
+    "prod": "NODE_ENV=production npm-run-all build server",
+    "dev": "NODE_ENV=development npm-run-all build server",
+    "watch:dev": "nodemon",
+    "start": "yarn run prod"
   },
-  "repository": {
-    "type": "git"
+  "nodemonConfig": {
+    "exec": "yarn run dev",
+    "watch": ["src/*", "public/*", "index.js", "alias.config.js"]
   },
-  "author": "",
-  "license": "",
-  "files": [
-    "README.md",
-    "index.js",
-    "index.d.ts",
-    "dist",
-    "src",
-    "!*/__tests__"
-  ],
   "dependencies": {
-    "@loopback/boot": "^2.1.2",
-    "@loopback/context": "^3.6.0",
-    "@loopback/core": "^2.4.2",
-    "@loopback/openapi-v3": "^3.3.0",
-    "@loopback/repository": "^2.3.0",
-    "@loopback/rest": "^3.3.2",
-    "@loopback/rest-explorer": "^2.1.2",
-    "@loopback/service-proxy": "^2.1.2",
-    "tslib": "^1.10.0"
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "module-alias": "^2.2.2",
+    "moment": "^2.25.1",
+    "mongoose": "^5.9.11",
+    "morgan": "^1.10.0",
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
-    "@loopback/build": "^5.3.0",
-    "source-map-support": "^0.5.19",
-    "@loopback/testlab": "^3.1.2",
-    "@types/node": "^10.17.21",
-    "typescript": "~3.8.3"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
   }
 }

@@ -1,4 +1,4 @@
 #!/bin/bash
-npm install
-npm run build
-nodemon .
+cp .env.example .env
+yarn install
+yarn run watch:dev
