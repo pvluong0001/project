@@ -1,0 +1,24 @@
+export function index(req, res) {
+  // get list
+
+}
+
+export function store(req, res) {
+  // store
+
+}
+
+export function update(req, res) {
+  // update
+
+}
+
+export function destroy(req, res) {
+  // delete
+
+}
+
+export function show(req, res) {
+  // show
+
+}
