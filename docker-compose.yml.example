@@ -10,9 +10,10 @@ services:
       - ./api:/api
     depends_on:
       - mongo
-      - redis
+#      - redis
     environment:
       REDIS_URL: "redis://redis:6379"
+      MONGO_DB_URL: "mongodb://mongo:27017"
       REDIS_PASSWORD: 123@!23a
     command: /bin/sh /entrypoint.sh
     networks:
@@ -79,28 +80,28 @@ services:
     volumes:
       - mongodbdata:/data/db
 
-  redis:
-    build:
-      context: ./docker/redis
-      dockerfile: Dockerfile
-    environment:
-      REDIS_PASSWORD: 123@!23a
-    restart: unless-stopped
-    volumes:
-      - redisdata:/data
-    ports:
-      - "63790:6379"
-    command: /bin/sh /entrypoint.sh
-    networks:
-      - project
+#  redis:
+#    build:
+#      context: ./docker/redis
+#      dockerfile: Dockerfile
+#    environment:
+#      REDIS_PASSWORD: 123@!23a
+#    restart: unless-stopped
+#    volumes:
+#      - redisdata:/data
+#    ports:
+#      - "63790:6379"
+#    command: /bin/sh /entrypoint.sh
+#    networks:
+#      - project
 
 volumes:
   mongodbdata:
     name: "mongodbdata"
     driver: local
-  redisdata:
-    name: "redisdata"
-    driver: local
+#  redisdata:
+#    name: "redisdata"
+#    driver: local
 
 networks:
   project:

@@ -1,22 +1,31 @@
 import moduleAlias from './alias.config';
-require('dotenv').config();
+
 moduleAlias();
+require('dotenv').config();
 
 import express from 'express';
-import setUuidRequest from '@middleware/uuid.middleware';
-import morganConfig from '@config/morgan.config';
+import {appConfig} from '@helpers/config.helper';
+import morganConfig from '@configs/morgan.config';
+import {connectDb} from '@helpers/db.helper';
+import {configRouter} from '@helpers/config-route.helper';
 
 const app = express();
 const port = process.env.PORT || 81;
 
-app.use(setUuidRequest);
+/** config */
 app.use(morganConfig(__dirname, 'storage/logs/access.log'));
+appConfig(app);
+configRouter(app);
 
-app.get('/', (req, res) => {
-  res.send('1232123 - edited - good');
-});
+(async () => {
+  try {
+    await connectDb();
 
-app.listen(port, () => {
-  console.log(`server is runnning in port ${port}`);
-  console.log(`http://localhost:${port}`);
-});
+    app.listen(port, () => {
+      console.log(`server is runnning in port ${port}`);
+      console.log(`http://localhost:${port}`);
+    });
+  } catch(e) {
+    console.log('Cannot connect database. Server stopped!');
+  }
+})()
