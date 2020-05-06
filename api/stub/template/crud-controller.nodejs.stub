@@ -1,24 +1,54 @@
-export function index(req, res) {
-  // get list
+import {{model}} from '@models/{{name}}.model';
+import { validationResult } from 'express-validator';
 
+export async function index(req, res) {
+  const data = await {{model}}.getAll({});
+
+  res.json({
+    data,
+    message: 'OK'
+  });
 }
 
-export function store(req, res) {
-  // store
+export async function store(req, res) {
+  const validateResult = validationResult(req);
+  if(!validateResult.isEmpty()) {
+    return res.status(422).json({errors: validateResult.array()})
+  }
+  const data = await {{model}}.store(req.body);
 
+  return res.json({
+    data,
+    message: data ? 'Create success!' : 'Create failed!'
+  });
 }
 
-export function update(req, res) {
-  // update
+export async function update(req, res) {
+  const validateResult = validationResult(req);
+  if (!validateResult.isEmpty()) {
+    return res.status(422).json({errors: validateResult.array()});
+  }
+  const data = await {{model}}.update(req.params.id, req.body);
 
+  return res.json({
+    data,
+    message: 'OK'
+  });
 }
 
-export function destroy(req, res) {
-  // delete
+export async function destroy(req, res) {
+  const data = await {{model}}.delete(req.params.id);
 
+  return res.status(data ? 200 : 422).json({
+    message: `Delete ${data ? 'success' : 'failed'}!`,
+  });
 }
 
-export function show(req, res) {
-  // show
+export async function show(req, res) {
+  const data = await {{model}}.findById(req.params.id);
 
+  return res.status(data ? 200 : 422).json({
+    message: data ? 'OK' : 'Not found!',
+    data
+  });
 }

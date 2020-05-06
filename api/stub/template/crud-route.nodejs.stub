@@ -1,0 +1,13 @@
+import express from 'express';
+const router = express.Router();
+import * as Controller from '@controllers/{{name}}.controller';
+import createMiddleware from '@middlewares/{{name}}-create.middleware'
+import updateMiddleware from '@middlewares/{{name}}-update.middleware'
+
+router.get('/', Controller.index)
+router.post('/', createMiddleware, Controller.store)
+router.put('/:id', updateMiddleware, Controller.update)
+router.delete('/:id', Controller.destroy)
+router.get('/:id', Controller.show)
+
+export default router
