@@ -25,6 +25,10 @@ export function fetchMiddlewareFromColumns(columns = [], excepts = []) {
       middleware.isNumeric().withMessage(`${columnName} must be a number!`);
     }
 
+    if(config.type === Boolean) {
+      middleware.isBoolean().withMessage(`${columnName} value must equal true or false!`);
+    }
+
     if(config.type === Date) {
       middleware.custom(value => {
         if(isDate(value)) {
