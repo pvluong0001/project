@@ -9,7 +9,8 @@
             "@controllers/*": ["src/controllers/*"],
             "@models/*": ["src/models/*"],
             "@configs/*": ["src/configs/*"],
-            "@services/*": ["src/services/*"]
+            "@services/*": ["src/services/*"],
+            "@root/*": ["./*"]
         }
     },
     "exclude": [

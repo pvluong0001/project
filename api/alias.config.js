@@ -2,8 +2,8 @@ import moduleAlias from 'module-alias';
 import path from 'path';
 
 moduleAlias.addAliases({
-  '@root': '.',
-  '@middlewares': path.join(__dirname, '/src/middlewares'),
+  '@root': path.join(__dirname, './'),
+  '@middlewares': path.join(__dirname, 'src/middlewares'),
   '@configs': path.join(__dirname, 'src/configs'),
   '@controllers': path.join(__dirname, 'src/controllers'),
   '@routes': path.join(__dirname, 'src/routes'),
