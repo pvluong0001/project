@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import {check} from 'express-validator';
 import {isDate} from 'moment';
+import omit from 'lodash/omit';
 
 export function connectDb() {
   /** connect db */
@@ -10,7 +11,9 @@ export function connectDb() {
   })
 }
 
-export function fetchMiddlewareFromColumns(columns = []) {
+export function fetchMiddlewareFromColumns(columns = [], excepts = []) {
+  columns = omit(columns, excepts);
+
   return Object.entries(columns).map(([columnName, config]) => {
     let middleware = check(columnName)
 
@@ -41,4 +44,14 @@ export function fetchMiddlewareFromColumns(columns = []) {
 
     return middleware;
   })
+}
+
+export function mapErrorHandleMongoose(err) {
+  switch(err.code) {
+    case 11000:
+      let column = Object.keys(err.keyPattern)[0];
+      return `${column} is exists!`;
+    default:
+      return err.message;
+  }
 }
