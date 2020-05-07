@@ -11,7 +11,6 @@ export function connectDb() {
   })
 }
 
-
 export function fetchMiddlewareFromColumns(columns = [], excepts = []) {
   columns = omit(columns, excepts);
 
@@ -20,24 +19,24 @@ export function fetchMiddlewareFromColumns(columns = [], excepts = []) {
 
     if(config.required) {
       middleware.notEmpty().withMessage(`${columnName} is required!`);
+    }
 
-      if(config.type === Number) {
-        middleware.isNumeric().withMessage(`${columnName} must be a number!`);
-      }
+    if(config.type === Number) {
+      middleware.isNumeric().withMessage(`${columnName} must be a number!`);
+    }
 
-      if(config.type === Boolean) {
-        middleware.isBoolean().withMessage(`${columnName} value must equal true or false!`);
-      }
-  
-      if(config.type === Date) {
-        middleware.custom(value => {
-          if(isDate(value)) {
-            return true;
-          }
-  
-          throw new Error(`${columnName} must be a date!`);
-        })
-      }
+    if(config.type === Boolean) {
+      middleware.isBoolean().withMessage(`${columnName} value must equal true or false!`);
+    }
+
+    if(config.type === Date) {
+      middleware.custom(value => {
+        if(isDate(value)) {
+          return true;
+        }
+
+        throw new Error(`${columnName} must be a date!`);
+      })
     }
 
     if(config.rules) {
