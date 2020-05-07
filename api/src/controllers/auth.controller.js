@@ -48,3 +48,26 @@ export function getUser(req, res) {
     data: req.user
   })
 }
+
+export async function uploadAvatar(req, res) {
+  const user = await User.findById(req.user._id);
+
+  if(user) {
+    const result = await user.changeAvatar(req.file?.path);
+
+    if(result) {
+      return res.json({
+        message: 'OK',
+        data: result
+      })
+    }
+    
+    return res.status(422).json({
+      errors: 'Cannot update avatar!'
+    })
+  }
+
+  return res.status(401).json({
+    errors: 'Unauthorized'
+  });
+}

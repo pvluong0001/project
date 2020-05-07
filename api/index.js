@@ -4,12 +4,15 @@ moduleAlias();
 require('dotenv').config();
 
 import express from 'express';
+import compression from 'compression';
 import {appConfig} from '@helpers/config.helper';
 import morganConfig from '@configs/morgan.config';
 import {connectDb} from '@helpers/db.helper';
 import {configRouter} from '@helpers/config-route.helper';
 
 const app = express();
+app.use(compression());
+app.use(express.static('public'));
 const port = process.env.PORT || 81;
 
 /** config */
