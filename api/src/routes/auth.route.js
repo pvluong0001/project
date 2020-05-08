@@ -14,6 +14,6 @@ router.post('/login', [...loginMiddleware, autoValidateMiddleware], authControll
 /** test for get user */
 router.use('/user', [authMiddleware]);
 router.get('/user/info', authController.getUser);
-router.post('/user/upload-avatar', uploader.single('avatar'), fileRequireMiddleware('avatar'), authController.uploadAvatar);
+router.put('/user/upload-avatar', uploader.single('avatar'), ...fileRequireMiddleware('avatar'), authController.uploadAvatar);
 
 export default router;
