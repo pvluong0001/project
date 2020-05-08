@@ -4,7 +4,7 @@ export default function (req, res, next) {
   const authHeader = req.header('Authorization');
   
   if (!authHeader) {
-    res.status(401).json({
+    return res.status(401).json({
       errors: 'Missing token!'
     });
   }
