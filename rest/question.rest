@@ -1,0 +1,22 @@
+### create question
+POST http://localhost:81/api/v1/question
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWI1MDNiNTI4NTA2YzE1NGIxNjY2NjciLCJuYW1lIjoidXNlcjAxIiwiZW1haWwiOiJ1c2VyMDFAZ21haWwuY29tIiwiaWF0IjoxNTg4OTMzNTk0LCJleHAiOjE1ODkwMTk5OTR9.ifMuQxao1ZXIPJ3RlPKDwNAqKOwWU_7qmKXbk26o_vw 
+
+{
+  "title": "Question 01",
+  "answers": [
+    {
+      "title": "Good",
+      "isCorrect": true
+    },
+    {
+      "title": "False",
+      "isCorrect": false
+    }
+  ],
+  "class": 0
+}
+
+### get questions
+GET http://localhost:81/api/v1/question

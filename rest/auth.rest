@@ -19,7 +19,7 @@ Content-Type: application/json
 
 ### get user
 GET http://localhost:81/api/v1/auth/user/info
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWI1MDNiNTI4NTA2YzE1NGIxNjY2NjciLCJuYW1lIjoidXNlcjAxIiwiZW1haWwiOiJ1c2VyMDFAZ21haWwuY29tIiwiaWF0IjoxNTg4OTIxMzQ3LCJleHAiOjE1ODkwMDc3NDd9.-YdirCsG2G5BAqolaRn83_ASgTHSCpkxfFFZp14wPJg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWI1MDNiNTI4NTA2YzE1NGIxNjY2NjciLCJuYW1lIjoidXNlcjAxIiwiZW1haWwiOiJ1c2VyMDFAZ21haWwuY29tIiwiaWF0IjoxNTg4OTMzNTk0LCJleHAiOjE1ODkwMTk5OTR9.ifMuQxao1ZXIPJ3RlPKDwNAqKOwWU_7qmKXbk26o_vw 
 
 ### upload avatar
 PUT http://localhost:81/api/v1/auth/user/upload-avatar

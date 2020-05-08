@@ -1,12 +1,7 @@
 import {Router} from 'express';
 import authRoute from '@routes/auth.route';
+import questionRoute from '@routes/question.route';
 import { fetchExplorerRoute } from './base.helper';
-
-// const routeStack = authRoute.stack.filter(layer => {
-//   return layer.roter;
-// })
-// console.log(authRoute.stack, '====');
-
 
 export function configRouter(app) {
   const router = Router();
@@ -16,6 +11,7 @@ export function configRouter(app) {
   });
 
   router.use('/auth', authRoute);
+  router.use('/question', questionRoute);
 
   /** set prefix for all route */
   app.use('/api/v1', router);
@@ -24,7 +20,8 @@ export function configRouter(app) {
     app.get('/api/v1/explorer', (req, res) => {
       return res.json({
         api: fetchExplorerRoute({
-          auth: authRoute
+          auth: authRoute,
+          question: questionRoute
         }, 'api/v1')
       })
     })

@@ -4,7 +4,7 @@ import {ONE_DAY_TIME} from '@configs/const.config';
 
 const SALT_WORK_FACTOR = 10;
 
-export default function(schema, options) {
+export default function(schema) {
   schema.methods.generateAuthToken = function() {
     return jwt.sign({
       _id: this._id,

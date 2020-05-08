@@ -6,7 +6,7 @@ export function fetchExplorerRoute(routers = {}, basePath = '/') {
   return Object.keys(routers).reduce((result, item) => {
     return {
       ...result,
-      [item]: _convertRoute(routers[item], basePath)
+      [item]: _convertRoute(routers[item], `${basePath}/${item}`)
     } 
   }, {})
 }
