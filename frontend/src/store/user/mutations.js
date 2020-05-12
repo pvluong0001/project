@@ -13,3 +13,10 @@ export function setLoginStatus (state, loginStatus) {
 export function setUser (state, userInfo) {
   state.user = userInfo
 }
+
+export function updateUser (state, options = {}) {
+  state.user = {
+    ...state.user,
+    ...options
+  }
+}

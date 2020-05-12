@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import authRoute from '@routes/auth.route';
+import groupRoute from '@routes/group.route';
 import { fetchExplorerRoute } from './base.helper';
 
 // const routeStack = authRoute.stack.filter(layer => {
@@ -16,6 +17,7 @@ export function configRouter(app) {
   });
 
   router.use('/auth', authRoute);
+  router.use('/group', groupRoute);
 
   /** set prefix for all route */
   app.use('/api/v1', router);
@@ -24,7 +26,8 @@ export function configRouter(app) {
     app.get('/api/v1/explorer', (req, res) => {
       return res.json({
         api: fetchExplorerRoute({
-          auth: authRoute
+          authRoute,
+          groupRoute
         }, 'api/v1')
       })
     })

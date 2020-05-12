@@ -40,8 +40,8 @@ userSchema.methods.changeAvatar = async function(newAvatar) {
   }
 
   this.avatar = newAvatar.replace('public/', '');
-  const result = this.save();
-  return !!result;
+  const result = await this.save();
+  return result;
 }
 
 export default mongoose.model('User', userSchema);
