@@ -2,23 +2,18 @@ import Group from '@models/group.model';
 import { validationResult } from 'express-validator';
 
 export async function index(req, res) {
-  const data = await Group.getAll({}, {
-    populate: {
-      path: 'parent',
-      select: 'name'
-    }
-  });
-  
+  const data = await Group.find({});
+
   res.json({
-    data,
+    data: data,
     message: 'OK'
   });
 }
 
 export async function store(req, res) {
   const validateResult = validationResult(req);
-  if(!validateResult.isEmpty()) {
-    return res.status(422).json({errors: validateResult.array()})
+  if (!validateResult.isEmpty()) {
+    return res.status(422).json({ errors: validateResult.array() })
   }
   const data = await Group.store(req.body);
 
@@ -31,7 +26,7 @@ export async function store(req, res) {
 export async function update(req, res) {
   const validateResult = validationResult(req);
   if (!validateResult.isEmpty()) {
-    return res.status(422).json({errors: validateResult.array()});
+    return res.status(422).json({ errors: validateResult.array() });
   }
   const data = await Group.update(req.params.id, req.body);
 

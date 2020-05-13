@@ -1,9 +1,16 @@
 export default function(schema, options) {
   schema.statics.getAll = function(query, options = {}) {
     const result = this.find(query);
+    const {populate} = options;
 
-    if(options.populate){
-      result.populate(options.populate);
+    if(populate){
+      if(Array.isArray(populate)) {
+        populate.forEach(item => {
+          result.populate(item);
+        })
+      } else {
+        result.populate(options.populate);
+      }
     }
 
     return result;

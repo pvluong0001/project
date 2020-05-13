@@ -1,6 +1,6 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
-
+const path = require('path')
 const envparser = require('./src/config/envparser')
 
 module.exports = function (ctx) {
@@ -85,6 +85,12 @@ module.exports = function (ctx) {
             formatter: require('eslint').CLIEngine.getFormatter('stylish')
           }
         })
+
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias,
+          helpers: path.resolve(__dirname, './src/helpers'),
+          mixins: path.resolve(__dirname, './src/mixins')
+        }
       },
       env: envparser()
     },

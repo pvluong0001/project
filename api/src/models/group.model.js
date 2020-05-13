@@ -8,18 +8,21 @@ export const columns = {
   },
   parent: {
     type: Schema.Types.ObjectId,
-    ref: 'Group',
-    autopopulate: true
+    ref: 'Group'
+  },
+  description: {
+    type: String,
+    default: null
   }
 };
 
-const groupSchema = new Schema(columns, { timestamps: true } );
+const groupSchema = new Schema(columns, { timestamps: true, toJSON: { virtuals: true } } );
 groupSchema.plugin(crudPlugin);
-groupSchema.virtual('test', {
-  ref: 'Group',
-  localField: '_id',
-  foreignField: 'parent',
-  count: true
-})
+// groupSchema.virtual('children', {
+//   ref: 'Group',
+//   localField: '_id',
+//   foreignField: 'parent'
+// })
+// groupSchema.virtual('children').get(() => [])
 
 export default mongoose.model('Group', groupSchema);
