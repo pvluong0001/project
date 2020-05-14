@@ -23,6 +23,16 @@ const routes = [
       {
         path: 'calendar',
         component: () => import('pages/Admin/Calendar/Index')
+      },
+      {
+        path: 'document',
+        component: () => import('pages/Admin/Document/Index'),
+        name: 'document'
+      },
+      {
+        path: 'document/create',
+        component: () => import('pages/Admin/Document/Create'),
+        name: 'document-create'
       }
     ]
   }

@@ -1,0 +1,13 @@
+### Select
+GET http://localhost:81/api/v1/document
+
+### Create
+POST http://localhost:81/api/v1/document
+Content-Type: application/json
+
+{
+  "content": "<p>Something good with <span>:user.name</span></p>",
+  "extraData": [
+    "user.name"
+  ]
+}
