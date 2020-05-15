@@ -27,6 +27,7 @@
               :filter="filter"
               :selected.sync="selected"
               selected-color="primary"
+              v-if="treeGroup.length"
             />
           </div>
         </template>
@@ -40,11 +41,21 @@
             <q-tab-panel :name="group._id" v-for="group in groupDetailList" :key="group._id">
               <div class="text-h4 q-mb-md">{{group.name}}</div>
               <p>{{group.description}}</p>
+              <div class="text-right">
+                <q-btn color="red-10" label="Delete" icon="warning" @click="confirm = true"/>
+              </div>
             </q-tab-panel>
           </q-tab-panels>
         </template>
       </q-splitter>
     </q-card-section>
+
+    <confirm
+      title="Do you want to delete this group?"
+      :confirm="confirm"
+      @cancel="confirm = false"
+      @confirm="handleDeleteGroup"
+    />
 
     <q-dialog v-model="createModal">
       <q-card style="min-width: 600px;">
@@ -91,6 +102,7 @@
 import { mapState, mapGetters } from 'vuex'
 import GroupSelect from 'components/Admin/Common/GroupSelect'
 import FormGroup from 'components/Admin/Common/FormGroup'
+import Confirm from 'components/Admin/Common/Confirm'
 import validateMixins from 'mixins/validate'
 
 export default {
@@ -99,7 +111,7 @@ export default {
     title: 'Group'
   },
   components: {
-    GroupSelect, FormGroup
+    GroupSelect, FormGroup, Confirm
   },
   mixins: [validateMixins],
   data: () => ({
@@ -110,7 +122,8 @@ export default {
       parent: null,
       name: '',
       description: ''
-    }
+    },
+    confirm: false
   }),
   computed: {
     ...mapState('group', ['list']),
@@ -125,10 +138,13 @@ export default {
   },
   created () {
     this.$store.dispatch('group/getList')
-    console.log(this.treeGroup)
   },
   methods: {
     flatArray (array) {
+      if (!array.length) {
+        return []
+      }
+
       return array.reduce((arr, element) => {
         arr = arr.concat(element)
         Array.isArray(element.children) && (arr = arr.concat(this.flatArray(element.children)))
@@ -156,6 +172,9 @@ export default {
           }
         }
       }
+    },
+    handleDeleteGroup () {
+      console.log(this.selected)
     }
   }
 }

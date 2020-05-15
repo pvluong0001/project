@@ -21,6 +21,7 @@
             :selected.sync="selected"
             selected-color="primary"
             @update:selected="handleUpdateSelected"
+            v-if="treeGroup.length"
           />
         </q-card-section>
         <q-card-section class="text-right">
