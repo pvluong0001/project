@@ -38,6 +38,21 @@ const routes = [
         path: 'document/:id/create',
         component: () => import('pages/Admin/Document/Clone'),
         name: 'document-clone'
+      },
+      {
+        path: 'profile',
+        component: () => import('pages/Admin/Profile/Index'),
+        name: 'profile'
+      },
+      {
+        path: 'group',
+        component: () => import('pages/Admin/Group/Index'),
+        name: 'group'
+      },
+      {
+        path: 'user',
+        component: () => import('pages/Admin/User/Index'),
+        name: 'user'
       }
     ]
   }

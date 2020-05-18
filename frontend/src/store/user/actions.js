@@ -39,8 +39,64 @@ export async function LOGOUT ({ commit, state }) {
   }
 }
 
+export async function getList ({ commit }) {
+  const response = await httpClient.get('/user')
+
+  if (response.data) {
+    commit('setList', response.data)
+  }
+}
+
+export async function updateInfo ({ commit }, payload) {
+  const response = await httpClient.put('/user', payload)
+
+  if (response.data) {
+    commit('notify/setNotify', {
+      color: 'teal',
+      message: 'Update info success'
+    }, { root: true })
+
+    return commit('setUser', response.data)
+  }
+
+  return commit('notify/setNotify', {
+    color: 'negative',
+    message: 'Update info failed!'
+  }, { root: true })
+}
+
+export async function uploadAvatar ({ commit }, file = null) {
+  if (file) {
+    const formData = new FormData()
+    formData.append('avatar', file)
+
+    const response = await httpClient.put('/auth/user/upload-avatar', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    if (response.data) {
+      commit('notify/setNotify', {
+        color: 'teal',
+        message: 'Change avatar success'
+      }, { root: true })
+
+      return response.data
+    }
+  }
+
+  commit('notify/setNotify', {
+    color: 'negative',
+    message: 'Missing file or upload failed. Please contact administrator!'
+  }, { root: true })
+
+  return false
+}
+
 export async function loadUser ({ commit }) {
   const response = await httpClient.get('/auth/user/info')
+  console.log(response)
   if (response.data) {
     commit('setUser', response.data)
   } else {

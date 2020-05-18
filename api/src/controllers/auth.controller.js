@@ -42,10 +42,12 @@ export async function login(req, res) {
   });
 }
 
-export function getUser(req, res) {
+export async function getUser(req, res) {
+  const user = await User.findById(req.user._id);
+
   return res.json({
     message: 'OK',
-    data: req.user
+    data: user
   })
 }
 
@@ -58,7 +60,7 @@ export async function uploadAvatar(req, res) {
     if(result) {
       return res.json({
         message: 'OK',
-        data: result
+        data: result.avatar
       })
     }
     

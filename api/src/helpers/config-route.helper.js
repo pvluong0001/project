@@ -1,6 +1,8 @@
 import {Router} from 'express';
 import authRoute from '@routes/auth.route';
 import documentRoute from '@routes/document.route';
+import groupRoute from '@routes/group.route';
+import userRoute from '@routes/user.route';
 import { fetchExplorerRoute } from './base.helper';
 import authMiddleware from '@middlewares/auth.middleware';
 
@@ -18,6 +20,8 @@ export function configRouter(app) {
   });
 
   router.use('/auth', authRoute);
+  router.use('/group', groupRoute);
+  router.use('/user', userRoute);
 
   router.use('/document', authMiddleware, documentRoute);
 
@@ -29,7 +33,9 @@ export function configRouter(app) {
       return res.json({
         api: fetchExplorerRoute({
           auth: authRoute,
-          documentRoute
+          documentRoute,
+          groupRoute,
+          userRoute
         }, 'api/v1')
       })
     })

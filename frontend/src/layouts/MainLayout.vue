@@ -41,9 +41,17 @@
                             <span class="q-ml-sm">{{user.name}}</span>
                         </template>
                         <q-list>
+                            <q-item clickable v-close-popup :to="{name: 'profile'}">
+                               <q-item-section avatar>
+                                    <q-avatar icon="account_circle" size="sm" color="teal" text-color="white"/>
+                                </q-item-section>
+                                <q-item-section>
+                                    <q-item-label>Edit profile</q-item-label>
+                                </q-item-section>
+                            </q-item>
                             <q-item clickable v-close-popup @click="logout">
                                 <q-item-section avatar>
-                                    <q-avatar icon="exit_to_app" color="teal" text-color="white"/>
+                                    <q-avatar icon="exit_to_app" size="sm" color="teal" text-color="white"/>
                                 </q-item-section>
                                 <q-item-section>
                                     <q-item-label>Logout</q-item-label>
@@ -73,9 +81,28 @@
                             <q-item-label>Dashboard</q-item-label>
                         </q-item-section>
                     </q-item>
+                    <q-item v-ripple clickable :to="{name: 'user'}" exact
+                            @click.native="addRememberTab({path: '/admin/user', title: 'User'})">
+                        <q-item-section avatar>
+                            <q-icon color="grey" name="accessibility"/>
+                        </q-item-section>
+                        <q-item-section>
+                            <q-item-label>User</q-item-label>
+                        </q-item-section>
+                    </q-item>
 
                     <q-separator class="q-ma-xs" />
+                    <q-item v-ripple clickable :to="{name: 'group'}" exact
+                            @click.native="addRememberTab({path: '/admin/group', title: 'Group'})">
+                        <q-item-section avatar>
+                            <q-icon color="grey" name="calendar_today"/>
+                        </q-item-section>
+                        <q-item-section>
+                            <q-item-label>Group</q-item-label>
+                        </q-item-section>
+                    </q-item>
 
+                    <q-separator class="q-ma-xs" />
                     <q-item v-ripple clickable to="/admin/calendar" exact
                             @click.native="addRememberTab({path: '/admin/calendar', title: 'Calendar'})">
                         <q-item-section avatar>
@@ -109,7 +136,9 @@
                         {{title}}
                     </q-chip>
                 </div>
-                <router-view/>
+                <div class="q-pa-sm">
+                  <router-view/>
+                </div>
             </div>
         </q-page-container>
     </q-layout>
