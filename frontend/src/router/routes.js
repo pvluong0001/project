@@ -23,6 +23,21 @@ const routes = [
       {
         path: 'calendar',
         component: () => import('pages/Admin/Calendar/Index')
+      },
+      {
+        path: 'profile',
+        component: () => import('pages/Admin/Profile/Index'),
+        name: 'profile'
+      },
+      {
+        path: 'group',
+        component: () => import('pages/Admin/Group/Index'),
+        name: 'group'
+      },
+      {
+        path: 'user',
+        component: () => import('pages/Admin/User/Index'),
+        name: 'user'
       }
     ]
   }
