@@ -81,6 +81,15 @@
                             <q-item-label>Dashboard</q-item-label>
                         </q-item-section>
                     </q-item>
+                    <q-item v-ripple clickable :to="{name: 'user'}" exact
+                            @click.native="addRememberTab({path: '/admin/user', title: 'User'})">
+                        <q-item-section avatar>
+                            <q-icon color="grey" name="accessibility"/>
+                        </q-item-section>
+                        <q-item-section>
+                            <q-item-label>User</q-item-label>
+                        </q-item-section>
+                    </q-item>
 
                     <q-separator class="q-ma-xs" />
                     <q-item v-ripple clickable :to="{name: 'group'}" exact

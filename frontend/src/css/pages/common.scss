@@ -1,0 +1,6 @@
+.lit__form-group {
+  &__label.required:after {
+    content: ' *';
+    color: crimson;
+  }
+}

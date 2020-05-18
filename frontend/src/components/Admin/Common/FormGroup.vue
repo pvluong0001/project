@@ -1,7 +1,7 @@
 <template>
-  <div class="row q-mb-sm">
+  <div class="row q-mb-sm lit__form-group">
     <div :class="`col-${labelCol} ${wrapperClass}`">
-      <div class="text-h6 q-mb-sm" v-if="label">{{label}}</div>
+      <div class="text-h6 q-mb-sm lit__form-group__label" :class="{required}" v-if="label">{{label}}</div>
       <slot></slot>
       <template v-if="actionArea">
         <q-btn color="teal" class="q-ml-xs" v-if="actions.includes('submit')" label="Save" @click="$emit('submit')"/>
@@ -35,9 +35,14 @@ export default {
     if (attrs.hasOwnProperty('action-area')) {
       this.actionArea = true
     }
+
+    if (attrs.hasOwnProperty('required')) {
+      this.required = true
+    }
   },
   data: () => ({
-    actionArea: false
+    actionArea: false,
+    required: false
   })
 }
 </script>

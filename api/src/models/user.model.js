@@ -24,7 +24,22 @@ export const columns = {
   avatar: {
     type: String,
     default: null
-  }
+  },
+  fullName: {
+    type: String
+  },
+  phone: {
+    type: String
+  },
+  address: {
+    type: String
+  },
+  group: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Group'
+    }
+  ]
 };
 
 const userSchema = new Schema(columns, {timestamps: true});

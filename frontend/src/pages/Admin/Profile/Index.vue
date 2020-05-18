@@ -16,7 +16,24 @@
         </div>
       </div>
       <div style="flex: 1;" class="q-pa-sm">
-        Content
+        <q-form ref="form">
+          <form-group label="Name" required>
+            <q-input filled dense v-model="userData.name" :rules="[val => !!val || 'Description is required']"/>
+          </form-group>
+          <form-group label="Email">
+            <q-input filled dense :value="user.email" readonly class="disabled"/>
+          </form-group>
+          <form-group label="Fullname">
+            <q-input filled dense v-model="userData.fullName"/>
+          </form-group>
+          <form-group label="Phone">
+            <q-input filled dense v-model="userData.phone"/>
+          </form-group>
+          <form-group label="Address">
+            <q-input filled dense v-model="userData.address"/>
+          </form-group>
+          <form-group wrapperClass="text-right" action-area @submit="submitHandle"/>
+        </q-form>
       </div>
     </q-card-section>
 
@@ -45,17 +62,30 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import FormGroup from 'components/Admin/Common/FormGroup'
+import validateMixins from 'mixins/validate'
+import pick from 'lodash/pick'
 
 export default {
   meta: {
     title: 'Edit profile'
   },
+  components: {
+    FormGroup
+  },
+  mixins: [
+    validateMixins
+  ],
   computed: {
     ...mapState('user', ['user'])
   },
+  created () {
+    this.userData = { ...pick(this.user, ['name', 'fullName', 'address', 'phone']) }
+  },
   data: () => ({
     changeAvatarImage: false,
-    avatar: null
+    avatar: null,
+    userData: {}
   }),
   methods: {
     ...mapActions({
@@ -84,6 +114,13 @@ export default {
     },
     fetchImage (avatar = null) {
       return avatar ? this.$asset(avatar) : 'statics/default.png'
+    },
+    async submitHandle () {
+      const validate = await this.validateForm()
+
+      if (validate) {
+        this.$store.dispatch('user/updateInfo', this.userData)
+      }
     }
   }
 }

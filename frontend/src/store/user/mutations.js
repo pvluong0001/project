@@ -14,6 +14,10 @@ export function setUser (state, userInfo) {
   state.user = userInfo
 }
 
+export function setList (state, userList) {
+  state.list = userList
+}
+
 export function updateUser (state, options = {}) {
   state.user = {
     ...state.user,

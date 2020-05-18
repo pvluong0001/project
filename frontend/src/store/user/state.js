@@ -3,6 +3,7 @@ export default function () {
     error: null,
     notify: null,
     isLogged: false,
-    user: {}
+    user: {},
+    list: []
   }
 }

@@ -39,6 +39,32 @@ export async function LOGOUT ({ commit, state }) {
   }
 }
 
+export async function getList ({ commit }) {
+  const response = await httpClient.get('/user')
+
+  if (response.data) {
+    commit('setList', response.data)
+  }
+}
+
+export async function updateInfo ({ commit }, payload) {
+  const response = await httpClient.put('/user', payload)
+
+  if (response.data) {
+    commit('notify/setNotify', {
+      color: 'teal',
+      message: 'Update info success'
+    }, { root: true })
+
+    return commit('setUser', response.data)
+  }
+
+  return commit('notify/setNotify', {
+    color: 'negative',
+    message: 'Update info failed!'
+  }, { root: true })
+}
+
 export async function uploadAvatar ({ commit }, file = null) {
   if (file) {
     const formData = new FormData()
