@@ -104,5 +104,8 @@ export async function loadUser ({ commit }) {
       color: 'negative',
       message: 'Session invalid!'
     }, { root: true })
+
+    localStorage.removeItem(process.env.TOKEN_NAME)
+    this.$router.replace('/login')
   }
 }

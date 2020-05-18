@@ -112,6 +112,16 @@
                             <q-item-label>Calendar</q-item-label>
                         </q-item-section>
                     </q-item>
+
+                    <q-item v-ripple clickable to="/admin/document" exact
+                            @click.native="addRememberTab({path: '/admin/document', title: 'Document'})">
+                        <q-item-section avatar>
+                            <q-icon color="grey" name="calendar_today"/>
+                        </q-item-section>
+                        <q-item-section>
+                            <q-item-label>Document</q-item-label>
+                        </q-item-section>
+                    </q-item>
                 </q-list>
             </q-scroll-area>
         </q-drawer>
