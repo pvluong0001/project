@@ -26,7 +26,7 @@
           <q-card-section class="q-gutter-sm">
             <div v-for="(item, key) in extra" :key="key">
               <label>
-                {{key}}
+                {{item.label}}
               </label>
               <q-input filled dense v-model="item.value" @input="updateExtraData(key)"/>
             </div>
@@ -46,6 +46,8 @@
 import editorConfig from 'src/config/editor'
 import { mapState } from 'vuex'
 import { get } from 'lodash'
+import moment from 'moment'
+import { formatDateToVN } from 'helpers/common'
 
 export default {
   name: 'Document-Create',
@@ -76,8 +78,9 @@ export default {
       this.templateData.user = { ...this.user }
 
       this.extra = this.document.extraData.reduce((obj, item) => {
-        obj[item] = {
-          value: get(this.templateData, item)
+        obj[item.key] = {
+          value: get(this.templateData, item.key) || this.customData(item.key),
+          label: item.label
         }
         return obj
       }, {})
@@ -119,13 +122,20 @@ export default {
     },
     fetchTemplateData (data) {
       Object.keys(this.extra).forEach(key => {
-        data = data.replace(`:${key}`, `<span data-key="${key}">${this.extra[key].value}</span>`)
+        data = data.replace(new RegExp(`:${key}`, 'g'), `<span data-key="${key}">${this.extra[key].value}</span>`)
       })
 
       return data
     },
     updateExtraData (key) {
       document.querySelector(`span[data-key='${key}']`).textContent = this.extra[key].value
+    },
+    customData (key) {
+      const obj = {
+        current_date: formatDateToVN(moment().format('Y-MM-D'))
+      }
+
+      return obj[key] || null
     }
   }
 }

@@ -18,3 +18,9 @@ export function tree (data, root) {
   })
   return t[root].children
 }
+
+export function formatDateToVN (date) {
+  const [year, month, day] = date.split('-')
+
+  return `Ngày ${day} tháng ${month} năm ${year}`
+}
