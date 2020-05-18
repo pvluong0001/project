@@ -10,7 +10,20 @@ export const columns = {
     {
       type: String
     }
-  ]
+  ],
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  name: {
+    type: String,
+    require: true
+  },
+  isRoot: {
+    type: Boolean,
+    default: false
+  }
 };
 
 const documentSchema = new Schema(columns, { timestamps: true } );

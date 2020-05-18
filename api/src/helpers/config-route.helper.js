@@ -2,6 +2,7 @@ import {Router} from 'express';
 import authRoute from '@routes/auth.route';
 import documentRoute from '@routes/document.route';
 import { fetchExplorerRoute } from './base.helper';
+import authMiddleware from '@middlewares/auth.middleware';
 
 // const routeStack = authRoute.stack.filter(layer => {
 //   return layer.roter;
@@ -18,7 +19,7 @@ export function configRouter(app) {
 
   router.use('/auth', authRoute);
 
-  router.use('/document', documentRoute);
+  router.use('/document', authMiddleware, documentRoute);
 
   /** set prefix for all route */
   app.use('/api/v1', router);

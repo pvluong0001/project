@@ -71,8 +71,7 @@ export default {
         ['bold', 'italic', 'strike', 'underline'],
         ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
         ['undo', 'redo'],
-        ['viewsource'],
-        ['addExtraData']
+        ['viewsource']
       ],
       fonts: {
         arial: 'Arial',
@@ -110,10 +109,16 @@ export default {
       this.extraModal = true
     },
     addExtraData (key) {
+      this.extraModal = false
+
       !this.extraData.includes(key) && this.extraData.push(key)
 
-      this.editor += `&nbsp;<span style="border: 1px dashed red; padding: 5px 10px; color: crimson;">:${key}</span>&nbsp;`
-      this.extraModal = false
+      if (/<\/div>$/.test(this.editor)) {
+        this.editor = this.editor.replace(/<\/div>$/, `&nbsp;<span class="highlight-word">:${key}</span>&nbsp;</div>`)
+        return
+      }
+
+      this.editor += `&nbsp;<span class="highlight-word">:${key}</span>&nbsp;`
     }
   }
 }

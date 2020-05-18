@@ -2,7 +2,8 @@ import Document from '@models/document.model';
 import { validationResult } from 'express-validator';
 
 export async function index(req, res) {
-  const data = await Document.getAll({});
+  const {query = {}} = req.query;
+  const data = await Document.find(JSON.parse(query));
 
   res.json({
     data,
@@ -15,7 +16,10 @@ export async function store(req, res) {
   if(!validateResult.isEmpty()) {
     return res.status(422).json({errors: validateResult.array()})
   }
-  const data = await Document.store(req.body);
+  const data = await Document.store({
+    ...req.body,
+    author: req.user._id
+  });
 
   return res.json({
     data,

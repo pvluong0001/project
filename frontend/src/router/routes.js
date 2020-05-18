@@ -33,6 +33,11 @@ const routes = [
         path: 'document/create',
         component: () => import('pages/Admin/Document/Create'),
         name: 'document-create'
+      },
+      {
+        path: 'document/:id/create',
+        component: () => import('pages/Admin/Document/Clone'),
+        name: 'document-clone'
       }
     ]
   }

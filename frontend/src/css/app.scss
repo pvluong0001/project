@@ -1,1 +1,12 @@
 // app global css in SCSS form
+.normal-link {
+  text-decoration: none;
+  color: #000;
+}
+
+// for editor
+.highlight-word {
+  border: 1px dashed red;
+  padding: 5px 10px;
+  color: crimson;
+}
