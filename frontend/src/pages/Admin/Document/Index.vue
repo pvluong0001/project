@@ -1,17 +1,35 @@
 <template>
-  <q-card class="q-ma-md">
-    <q-card-section class="text-right">
-      <btn-remember label="Create" :to="{path: '/admin/document/create', title: 'Document Create'}"/>
-    </q-card-section>
-    <q-card-section class="row q-col-gutter-md">
-      <div class="col-2" v-for="document in list" :key="document._id">
-        <q-img src="/statics/document.png"/>
-        <router-link :to="`/admin/document/${document._id}/create`" class="text-center q-mt-xs text-bold normal-link block">
-          {{document.name}}
-        </router-link>
-      </div>
-    </q-card-section>
-  </q-card>
+  <div class="">
+    <q-card class="col-12 q-ma-md">
+      <q-card-section class="flex justify-between">
+        <div class="text-h6">Template document</div>
+        <btn-remember label="Create" :to="{path: '/admin/document/create', title: 'Document Create'}"/>
+      </q-card-section>
+      <q-card-section class="row q-col-gutter-md">
+        <div class="col-2" v-for="document in rootDoc" :key="document._id">
+          <router-link :to="`/admin/document/${document._id}/create`" class="text-center text-bold normal-link block">
+            <q-img src="/statics/document.png"/>
+            <p class="q-mt-md">{{document.name}}</p>
+            <q-tooltip>{{document.name}}</q-tooltip>
+          </router-link>
+        </div>
+      </q-card-section>
+    </q-card>
+    <q-card class="col-12 q-ma-md">
+      <q-card-section>
+        <div class="text-h6">My document</div>
+      </q-card-section>
+      <q-card-section class="row q-col-gutter-md">
+        <div class="col-2" v-for="document in myDoc" :key="document._id">
+          <router-link :to="`/admin/document/${document._id}/preview`" class="text-center text-bold normal-link block">
+            <q-img src="/statics/document.png"/>
+            <p class="q-mt-md">{{document.name}}</p>
+            <q-tooltip>{{document.name}}</q-tooltip>
+          </router-link>
+        </div>
+      </q-card-section>
+    </q-card>
+  </div>
 </template>
 
 <script>
@@ -21,13 +39,25 @@ export default {
   name: 'Document',
   data: () => ({
     editor: '',
-    list: []
+    rootDoc: [],
+    myDoc: []
   }),
   components: {
     BtnRemember
   },
   async created () {
-    this.list = await this.$store.dispatch('document/list')
+    const docs = await this.$store.dispatch('document/list')
+
+    docs.forEach(doc => {
+      if (doc.isRoot) {
+        this.rootDoc.push(doc)
+      } else {
+        this.myDoc.push(doc)
+      }
+    })
+  },
+  methods: {
+
   }
 }
 </script>

@@ -3,7 +3,14 @@ import { validationResult } from 'express-validator';
 
 export async function index(req, res) {
   const {query = {}} = req.query;
-  const data = await Document.find(JSON.parse(query));
+  const data = await Document.find({
+    $or: [
+      JSON.parse(query),
+      {
+        author: req.user._id
+      }
+    ]
+  });
 
   res.json({
     data,

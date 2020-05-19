@@ -99,19 +99,21 @@ export default {
     addExtraData (key, label = null) {
       this.extraModal = false
 
+      const fetchLabel = label || this.extras[key]
+
       if (!this.extraData.some(item => item.key === key)) {
         this.extraData.push({
           key: key,
-          label: label || this.extras[key]
+          label: fetchLabel
         })
       }
 
       if (/<\/div>$/.test(this.editor)) {
-        this.editor = this.editor.replace(/<\/div>$/, `&nbsp;<span class="highlight-word">:${key}</span>&nbsp;</div>`)
+        this.editor = this.editor.replace(/<\/div>$/, `&nbsp;<span class="highlight-word" data-label="${fetchLabel}">:${key}</span>&nbsp;</div>`)
         return
       }
 
-      this.editor += `&nbsp;<span class="highlight-word">:${key}</span>&nbsp;`
+      this.editor += `&nbsp;<span class="highlight-word" data-label="${fetchLabel}">:${key}</span>&nbsp;`
     }
   }
 }

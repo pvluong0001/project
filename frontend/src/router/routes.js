@@ -40,6 +40,11 @@ const routes = [
         name: 'document-clone'
       },
       {
+        path: 'document/:id/preview',
+        component: () => import('pages/Admin/Document/Preview'),
+        name: 'document-preview'
+      },
+      {
         path: 'profile',
         component: () => import('pages/Admin/Profile/Index'),
         name: 'profile'

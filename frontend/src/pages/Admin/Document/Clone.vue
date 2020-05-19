@@ -95,12 +95,12 @@ export default {
       if (!validate) {
         return
       }
+      const content = this.$refs.editor.getContentEl().innerHTML
 
       const result = await this.$store.dispatch('document/create', {
-        content: this.editor,
-        extraData: this.extraData,
+        content: content.replace(/class="highlight-word"/g, ''),
         name: this.name,
-        isRoot: true
+        isRoot: false
       })
 
       if (result) {
@@ -135,7 +135,7 @@ export default {
         current_date: formatDateToVN(moment().format('Y-MM-D'))
       }
 
-      return obj[key] || null
+      return obj[key] || ''
     }
   }
 }

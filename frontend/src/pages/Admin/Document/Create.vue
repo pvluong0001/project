@@ -24,7 +24,7 @@
             <div class="text-h6">Extra data</div><q-btn color="teal" @click="createCustomExtra = true" icon="add"/>
           </q-card-section>
           <q-card-section class="q-gutter-sm">
-            <q-badge color="teal" v-for="(item, index) in extraData" @click="addExtraData(item.key)" :label="item.label" class="q-pa-sm cursor-pointer" :key="index"/>
+            <q-badge color="teal" v-for="(item, index) in extraData" @click="addExtraData(item.key, item.label)" :label="item.label" class="q-pa-sm cursor-pointer" :key="index"/>
           </q-card-section>
         </q-card>
         <q-card>

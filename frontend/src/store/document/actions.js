@@ -17,3 +17,9 @@ export async function list (context) {
 export async function getDetail (context, documentId) {
   return await httpClient.get(`/document/${documentId}`)
 }
+
+export async function deleteDocument (context, documentId) {
+  const response = await httpClient.del(`/document/${documentId}`)
+
+  return !!response
+}
