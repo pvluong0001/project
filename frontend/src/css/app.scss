@@ -11,4 +11,9 @@
   border: 1px dashed red;
   padding: 5px 10px;
   color: crimson;
+
+  &:after {
+    content: "["attr(data-label)"]";
+    margin-left: 5px;
+  }
 }

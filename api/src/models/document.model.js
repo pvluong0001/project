@@ -8,7 +8,9 @@ export const columns = {
   },
   extraData: [
     {
-      type: String
+      key: String,
+      label: String,
+      _id: false
     }
   ],
   author: {

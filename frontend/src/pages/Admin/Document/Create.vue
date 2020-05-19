@@ -20,11 +20,11 @@
           <q-input v-model="name" dense filled placeholder="Enter document name" :rules="[val => !!val || 'Field is required']" ref=""/>
         </q-card>
         <q-card class="q-mb-md">
-          <q-card-section>
-            <div class="text-h6">Extra data</div>
+          <q-card-section class="justify-between flex">
+            <div class="text-h6">Extra data</div><q-btn color="teal" @click="createCustomExtra = true" icon="add"/>
           </q-card-section>
           <q-card-section class="q-gutter-sm">
-            <q-badge color="teal" v-for="(item, key) in extraData" @click="addExtraData(item)" :label="item" class="q-pa-sm cursor-pointer" :key="key"/>
+            <q-badge color="teal" v-for="(item, index) in extraData" @click="addExtraData(item.key, item.label)" :label="item.label" class="q-pa-sm cursor-pointer" :key="index"/>
           </q-card-section>
         </q-card>
         <q-card>
@@ -34,6 +34,25 @@
         </q-card>
       </div>
 
+      <q-dialog v-model="createCustomExtra">
+        <q-card style="min-width: 500px">
+          <q-card-section>
+            <div class="text-h6">Create extra data</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none q-gutter-sm">
+            <q-form ref="extra_form">
+              <form-group
+                label="Name"
+              >
+                <q-input filled dense v-model="customExtra" :rules="[val => !!val || 'Field is required']"/>
+              </form-group>
+              <form-group wrapperClass="text-right" action-area @submit="createExtraHandle"/>
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+
       <q-dialog v-model="extraModal">
         <q-card style="min-width: 500px">
           <q-card-section>
@@ -41,7 +60,7 @@
           </q-card-section>
 
           <q-card-section class="q-pt-none q-gutter-sm">
-            <q-badge v-for="(item, index) in extras" class="q-pa-md cursor-pointer" style="font-size: 14px" @click="addExtraData(item.key)" :key="index" :label="item.label"/>
+            <q-badge v-for="(value, key) in extras" class="q-pa-md cursor-pointer" style="font-size: 14px" @click="addExtraData(key)" :key="key" :label="value"/>
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -51,6 +70,8 @@
 
 <script>
 import editorConfig from 'src/config/editor'
+import FormGroup from 'components/Admin/Common/FormGroup'
+import { uid } from 'quasar'
 
 export default {
   name: 'Document-Create',
@@ -58,8 +79,13 @@ export default {
     return {
       editor: '',
       extraModal: false,
-      name: null
+      name: null,
+      createCustomExtra: false,
+      customExtra: ''
     }
+  },
+  components: {
+    FormGroup
   },
   created () {
     this.toolbar.push(['addExtraData'])
@@ -95,6 +121,15 @@ export default {
         message: 'Create document failed!',
         position: 'top-right'
       })
+    },
+    createExtraHandle () {
+      this.$refs.extra_form.validate()
+        .then(() => {
+          this.addExtraData(uid(), this.customExtra)
+
+          this.customExtra = ''
+          this.createCustomExtra = false
+        })
     }
   }
 }

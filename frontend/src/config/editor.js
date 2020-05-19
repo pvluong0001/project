@@ -84,41 +84,36 @@ export default {
         verdana: 'Verdana'
       },
       extraData: [],
-      extras: [
-        {
-          key: 'user.name',
-          label: 'User name'
-        },
-        {
-          key: 'user.email',
-          label: 'User email'
-        },
-        {
-          key: 'user.avatar',
-          label: 'User avatar'
-        },
-        {
-          key: 'current_date',
-          label: 'Time now'
-        }
-      ]
+      extras: {
+        'user.name': 'User name',
+        'user.email': 'User email',
+        'user.avatar': 'User avatar',
+        current_date: 'Current date'
+      }
     }
   },
   methods: {
     addExtraDataFn () {
       this.extraModal = true
     },
-    addExtraData (key) {
+    addExtraData (key, label = null) {
       this.extraModal = false
 
-      !this.extraData.includes(key) && this.extraData.push(key)
+      const fetchLabel = label || this.extras[key]
+
+      if (!this.extraData.some(item => item.key === key)) {
+        this.extraData.push({
+          key: key,
+          label: fetchLabel
+        })
+      }
 
       if (/<\/div>$/.test(this.editor)) {
-        this.editor = this.editor.replace(/<\/div>$/, `&nbsp;<span class="highlight-word">:${key}</span>&nbsp;</div>`)
+        this.editor = this.editor.replace(/<\/div>$/, `&nbsp;<span class="highlight-word" data-label="${fetchLabel}">:${key}</span>&nbsp;</div>`)
         return
       }
 
-      this.editor += `&nbsp;<span class="highlight-word">:${key}</span>&nbsp;`
+      this.editor += `&nbsp;<span class="highlight-word" data-label="${fetchLabel}">:${key}</span>&nbsp;`
     }
   }
 }
