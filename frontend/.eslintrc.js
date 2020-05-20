@@ -41,6 +41,8 @@ module.exports = {
     // allow paren-less arrow functions
     'arrow-parens': 'off',
     'one-var': 'off',
+    "allowTemplateLiterals": 'off',
+    'no-prototype-builtins': 'off',
 
     'import/first': 'off',
     'import/named': 'error',

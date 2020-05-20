@@ -25,6 +25,12 @@
       ],
       "vue$": [
         "node_modules/vue/dist/vue.esm.js"
+      ],
+      "helpers/*": [
+        "src/helpers/*"
+      ],
+      "mixins/*": [
+        "src/mixins/*"
       ]
     }
   },

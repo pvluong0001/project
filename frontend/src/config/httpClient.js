@@ -4,9 +4,11 @@ const client = axios.create({
   baseURL: process.env.API_URL
 })
 
-async function get (url) {
+async function get (url, query = null) {
   try {
-    const response = await client.get(url)
+    const response = await client.get(url, {
+      params: query || {}
+    })
 
     if (response.status === 200) {
       return response.data

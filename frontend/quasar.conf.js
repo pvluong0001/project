@@ -1,6 +1,6 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
-
+const path = require('path')
 const envparser = require('./src/config/envparser')
 
 module.exports = function (ctx) {
@@ -10,7 +10,8 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
       'i18n',
-      'axios'
+      'axios',
+      'helper'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -51,7 +52,7 @@ module.exports = function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify', 'Meta'
       ]
     },
 
@@ -84,6 +85,12 @@ module.exports = function (ctx) {
             formatter: require('eslint').CLIEngine.getFormatter('stylish')
           }
         })
+
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias,
+          helpers: path.resolve(__dirname, './src/helpers'),
+          mixins: path.resolve(__dirname, './src/mixins')
+        }
       },
       env: envparser()
     },

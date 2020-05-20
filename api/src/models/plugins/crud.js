@@ -1,6 +1,19 @@
 export default function(schema, options) {
-  schema.statics.getAll = function(query) {
-    return this.find(query);
+  schema.statics.getAll = function(query, options = {}) {
+    const result = this.find(query);
+    const {populate} = options;
+
+    if(populate){
+      if(Array.isArray(populate)) {
+        populate.forEach(item => {
+          result.populate(item);
+        })
+      } else {
+        result.populate(options.populate);
+      }
+    }
+
+    return result;
   };
 
   schema.statics.store = function(data) {
