@@ -105,7 +105,7 @@ export default {
         isRoot: true
       })
 
-      if (result) {
+      if (result.data) {
         this.$q.notify({
           color: 'teal',
           message: 'Create document success!',
@@ -118,7 +118,7 @@ export default {
 
       this.$q.notify({
         color: 'negative',
-        message: 'Create document failed!',
+        message: result.message || 'Create document failed!',
         position: 'top-right'
       })
     },

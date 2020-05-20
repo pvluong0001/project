@@ -36,12 +36,13 @@ export default {
   name: 'Login',
   data: () => ({
     acc: {
-      email: 'luong@test.com',
+      email: 'user01@gmail.com',
       password: '123@123a'
     }
   }),
   methods: {
     login () {
+      console.log(this.acc)
       this.$store.dispatch('user/LOGIN', this.acc)
     }
   },

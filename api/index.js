@@ -18,11 +18,11 @@ const port = process.env.PORT || 81;
 /** config */
 app.use(morganConfig(__dirname, 'storage/logs/access.log'));
 appConfig(app);
-configRouter(app);
 
 (async () => {
   try {
     await connectDb();
+    configRouter(app);
 
     app.listen(port, () => {
       console.log(`server is runnning in port ${port}`);
