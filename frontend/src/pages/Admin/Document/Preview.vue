@@ -37,18 +37,18 @@ export default {
     const documentId = this.$route.params.id
     const response = await this.$store.dispatch('document/getDetail', documentId)
 
-    if (response.data) {
-      this.doc = response.data
+    if (response.isSuccess) {
+      this.doc = response.result.data
     }
   },
   methods: {
     async handleDelete () {
-      const result = await this.$store.dispatch('document/deleteDocument', this.$route.params.id)
+      const response = await this.$store.dispatch('document/deleteDocument', this.$route.params.id)
 
-      if (result) {
+      if (response.isSuccess) {
         this.$q.notify({
           color: 'teal',
-          message: 'Delete document success!',
+          message: response.result.message,
           position: 'top-right'
         })
 

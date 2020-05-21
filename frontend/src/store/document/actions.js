@@ -1,25 +1,18 @@
-import { httpClient } from 'src/config/httpClient'
-
 export async function create ({ commit }, payload) {
-  return await httpClient.post('/document', payload)
+  return this._vm.$axios.post('/document', payload);
 }
 
 export async function list (context) {
-  const response = await httpClient.get('/document', {
-    query: {
-      isRoot: true
-    }
-  })
+  const response = await this._vm.$axios.get('/document')
 
-  return response ? response.data : []
+  return response ? response.result.data : []
 }
 
 export async function getDetail (context, documentId) {
-  return await httpClient.get(`/document/${documentId}`)
+  return this._vm.$axios.get(`/document/${documentId}`);
 }
 
 export async function deleteDocument (context, documentId) {
-  const response = await httpClient.del(`/document/${documentId}`)
+  return this._vm.$axios.delete(`/document/${documentId}`)
 
-  return !!response
 }

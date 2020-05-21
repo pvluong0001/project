@@ -3,7 +3,7 @@
     <q-card class="col-12 q-ma-md">
       <q-card-section class="flex justify-between">
         <div class="text-h6">Template document</div>
-        <btn-remember label="Create" :to="{path: '/admin/document/create', title: 'Document Create'}"/>
+        <btn-remember v-if="hasRole(CONSTANT.ROLE.ADMIN)" label="Create" :to="{path: '/admin/document/create', title: 'Document Create'}"/>
       </q-card-section>
       <q-card-section class="row q-col-gutter-md">
         <div class="col-2" v-for="document in rootDoc" :key="document._id">

@@ -1,9 +1,7 @@
-import { httpClient } from 'src/config/httpClient'
-
 export async function getList ({ commit }) {
-  const response = await httpClient.get('/group')
-  if (response.data) {
-    const filterData = response.data.map(item => {
+  const response = await this._vm.$axios.get('/group')
+  if (response.isSuccess) {
+    const filterData = response.result.data.map(item => {
       if (item.parent === null) {
         delete item.parent
       }
@@ -16,13 +14,14 @@ export async function getList ({ commit }) {
 }
 
 export async function create ({ commit }, payload) {
-  const response = await httpClient.post('/group', payload)
+  const response = await this._vm.$axios.post('/group', payload)
 
-  if (response.data) {
-    commit('notify/setNotify', {
+  if (response.isSuccess) {
+    this._vm.$q.notify({
       color: 'teal',
-      message: response.message
-    }, { root: true })
+      message: response.result.message,
+      position: 'top-right'
+    });
 
     return true
   }

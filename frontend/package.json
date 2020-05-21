@@ -23,6 +23,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "quasar": "^1.0.0",
+    "vee-validate": "^3.3.0",
     "vue-i18n": "^8.0.0",
     "vuex-persist": "^2.2.0"
   },

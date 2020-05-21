@@ -98,14 +98,14 @@ export default {
         return
       }
 
-      const result = await this.$store.dispatch('document/create', {
+      const response = await this.$store.dispatch('document/create', {
         content: this.editor,
         extraData: this.extraData,
         name: this.name,
         isRoot: true
       })
 
-      if (result.data) {
+      if (response.isSuccess) {
         this.$q.notify({
           color: 'teal',
           message: 'Create document success!',
