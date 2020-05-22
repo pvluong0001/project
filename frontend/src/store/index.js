@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import VuexPersist from 'vuex-persist'
 
 import user from './user'
-import notify from './notify'
 import helper from './helper'
 import document from './document'
 import group from './group'
@@ -28,7 +27,7 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       // example
-      user, notify, helper, document, group
+      user, helper, document, group
     },
 
     // enable strict mode (adds overhead!)

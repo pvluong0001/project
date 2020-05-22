@@ -1,7 +1,6 @@
 <template>
   <div class="row">
-    <input type="hidden" v-model="selected"/>
-    <q-input class="full-width" dense readonly filled :value="selectedGroupName">
+    <q-input class="full-width" dense readonly filled :value="getGroupNameById(computedValue)">
       <template v-slot:after>
         <q-btn dense color="teal" label="Select group" class="q-pa-xs" @click="modal = true"/>
       </template>
@@ -10,19 +9,29 @@
     <q-dialog v-model="modal">
       <q-card style="min-width: 400px">
         <q-card-section>
-          <div class="text-h6">Pick group {{selected}}</div>
+          <div class="text-h6">Pick group {{getGroupNameById(computedValue)}}</div>
         </q-card-section>
         <q-card-section>
-          <q-tree
-            :nodes="treeGroup"
-            node-key="_id"
-            label-key="name"
-            default-expand-all
-            :selected.sync="selected"
-            selected-color="primary"
-            @update:selected="handleUpdateSelected"
-            v-if="treeGroup.length"
-          />
+          <template v-if="treeGroup.length">
+            <q-tree
+              :nodes="treeGroup"
+              node-key="_id"
+              label-key="name"
+              default-expand-all
+              :selected.sync="computedValue"
+              selected-color="primary"
+              v-if="!multiSelect"
+            />
+            <q-tree
+              :nodes="treeGroup"
+              node-key="_id"
+              label-key="name"
+              default-expand-all
+              tick-strategy="strict"
+              :ticked.sync="computedValue"
+              v-else
+            />
+          </template>
         </q-card-section>
         <q-card-section class="text-right">
           <q-btn label="Pick" color="teal" class="q-mr-sm" @click="selectGroupHandle"/>
@@ -40,35 +49,40 @@ export default {
   data: () => ({
     text: '',
     modal: false,
-    selected: '',
     selectedGroupName: ''
   }),
   props: {
-    model: {
-      type: String,
-      default: ''
+    value: [String, Array],
+    multiSelect: {
+      type: Boolean,
+      default: false
     }
   },
   created () {
     this.$store.dispatch('group/getList')
-    this.selected = this.model
   },
   computed: {
     ...mapGetters({
       flattenGroup: 'group/flattenGroup',
       treeGroup: 'group/treeGroup'
-    })
+    }),
+    computedValue: {
+      get() {
+        console.log(this.value);
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val)
+      }
+    }
   },
   methods: {
     selectGroupHandle () {
       this.selectedGroupName = this.getGroupNameById(this.selected)
       this.modal = false
     },
-    handleUpdateSelected (val) {
-      this.$emit('select-group', val)
-    },
     getGroupNameById (groupId) {
-      return this.flattenGroup.find(group => group._id === groupId).name
+      return this.flattenGroup.find(group => group._id === groupId)?.name
     }
   }
 }

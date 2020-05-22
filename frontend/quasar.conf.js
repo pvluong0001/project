@@ -53,7 +53,7 @@ module.exports = function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Notify', 'Meta'
+        'Notify', 'Meta', 'Dialog'
       ]
     },
 
@@ -164,6 +164,8 @@ module.exports = function (ctx) {
     capacitor: {
       hideSplashscreen: true
     },
+
+    preFetch: true,
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {

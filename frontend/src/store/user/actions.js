@@ -112,3 +112,17 @@ export async function loadUser({commit}) {
     this.$router.replace('/login');
   }
 }
+
+export async function destroy({state, commit}, userId) {
+  const response = await this._vm.$axios.delete(`/user/${userId}`);
+
+  if(response.isSuccess) {
+    commit('setList', state.list.filter(item => item._id !== userId))
+
+    this._vm.$q.notify({
+      color: 'teal',
+      message: response.result.message,
+      position: 'top-right'
+    });
+  }
+}

@@ -15,7 +15,7 @@
           <q-icon name="linked_camera" size="sm"/>
         </div>
       </div>
-      <div style="flex: 1;" class="q-pa-sm">
+      <div style="flex: 1;" class="q-pa-sm q-pl-md">
         <q-form ref="form">
           <form-group label="Name" required>
             <q-input filled dense v-model="userData.name" :rules="[val => !!val || 'Description is required']"/>
@@ -96,10 +96,11 @@ export default {
     },
     async changeAvatarHandle () {
       if (!this.avatar) {
-        this.$store.commit('notify/setNotify', {
+        this.$q.notify({
           color: 'negative',
-          message: 'Avatar is required!'
-        })
+          message: 'Avatar is required',
+          position: 'top-right'
+        });
         return
       }
       const response = await this.changeAvatar(this.avatar)
@@ -113,7 +114,7 @@ export default {
       this.changeAvatarImage = false
     },
     fetchImage (avatar = null) {
-      return avatar ? this.$asset(avatar) : 'statics/default.png'
+      return avatar ? this.$asset(avatar) : '/statics/default.png'
     },
     async submitHandle () {
       const validate = await this.validateForm()

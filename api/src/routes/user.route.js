@@ -6,5 +6,7 @@ import authMiddleware from '@middlewares/auth.middleware';
 
 router.get('/', authMiddleware, Controller.index)
 router.put('/', [authMiddleware, ...updateMiddleware], Controller.update)
+router.delete('/:id', authMiddleware, Controller.destroy)
+router.get('/:id', authMiddleware, Controller.show)
 
 export default router

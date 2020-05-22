@@ -12,9 +12,8 @@
                 />
 
                 <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
-                    <q-icon :name="fabYoutube" color="red" size="28px"/>
                     <q-toolbar-title shrink class="text-weight-bold">
-                        YouTube
+                        Luong Lit
                     </q-toolbar-title>
                 </q-btn>
 
@@ -162,29 +161,12 @@ export default {
 
     this.fabYoutube = fabYoutube
     await this.loadUser()
-
-    /** clear notify */
-    this.setNotify(null)
   },
   computed: {
     ...mapState('user', ['isLogged', 'user']),
-    ...mapState('notify', ['notify']),
     ...mapState('helper', ['rememberTabs'])
   },
   watch: {
-    notify () {
-      if (this.notify) {
-        this.$q.notify({
-          color: this.notify.color,
-          message: this.notify.message,
-          position: 'top-right',
-          icon: 'check_circle',
-          timeout: 2000
-        })
-
-        this.$store.commit('user/setNotify', null)
-      }
-    },
     $route (to, from) {
       this.activeRememberTab = to.fullPath
     }

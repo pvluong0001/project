@@ -69,8 +69,7 @@
           <q-form ref="form">
             <form-group label="Group">
               <group-select
-                @select-group="($value) => {formData.parent = $value}"
-                :model="formData.parent"
+                v-model="formData.parent"
               />
             </form-group>
             <form-group label="Name">

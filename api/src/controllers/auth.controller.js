@@ -24,9 +24,7 @@ export async function register(req, res) {
 export async function login(req, res) {
   const query = pick(req.body, ['email']);
   const user = await User.findOne(query);
-  console.log(user, query);
-  
-  
+
   if(user) {
     const isValid = await user.comparePassword(req.body.password);
 
