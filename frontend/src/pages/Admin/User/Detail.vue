@@ -90,8 +90,6 @@
       buildSkills() {
         try {
           this.skills = convertSkillsToChartConfig(this.flattenGroup.filter(item => this.model.includes(item._id)))
-
-          console.log(this.skills);
         } catch(e) {
           console.log(e);
           this.$q.notify({
