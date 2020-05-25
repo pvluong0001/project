@@ -11,7 +11,8 @@ module.exports = function (ctx) {
     boot: [
       'i18n',
       'axios',
-      'helper'
+      'helper',
+      'veevalidate'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -52,7 +53,7 @@ module.exports = function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Notify', 'Meta'
+        'Notify', 'Meta', 'Dialog'
       ]
     },
 
@@ -76,15 +77,15 @@ module.exports = function (ctx) {
       gzip: true,
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
       extendWebpack (cfg) {
-        cfg.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /node_modules/,
-          options: {
-            formatter: require('eslint').CLIEngine.getFormatter('stylish')
-          }
-        })
+        // cfg.module.rules.push({
+        //   enforce: 'pre',
+        //   test: /\.(js|vue)$/,
+        //   loader: 'eslint-loader',
+        //   exclude: /node_modules/,
+        //   options: {
+        //     formatter: require('eslint').CLIEngine.getFormatter('stylish')
+        //   }
+        // })
 
         cfg.resolve.alias = {
           ...cfg.resolve.alias,
@@ -163,6 +164,8 @@ module.exports = function (ctx) {
     capacitor: {
       hideSplashscreen: true
     },
+
+    preFetch: true,
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {

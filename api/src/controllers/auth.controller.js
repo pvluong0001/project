@@ -2,6 +2,7 @@ import User from '@models/user.model';
 import pick from 'lodash/pick';
 import {columns} from '@models/user.model';
 import { mapErrorHandleMongoose } from '@helpers/db.helper';
+import { acl } from '@helpers/config-route.helper';
 
 export async function register(req, res) {
   try {
@@ -23,7 +24,7 @@ export async function register(req, res) {
 export async function login(req, res) {
   const query = pick(req.body, ['email']);
   const user = await User.findOne(query);
-  
+
   if(user) {
     const isValid = await user.comparePassword(req.body.password);
 
@@ -44,10 +45,14 @@ export async function login(req, res) {
 
 export async function getUser(req, res) {
   const user = await User.findById(req.user._id);
+  const roles = await acl.userRoles(req.user._id);
 
   return res.json({
     message: 'OK',
-    data: user
+    data: {
+      ...user.toJSON(),
+      roles
+    }
   })
 }
 

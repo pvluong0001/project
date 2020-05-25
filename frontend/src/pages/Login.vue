@@ -1,81 +1,56 @@
 <template>
-    <q-layout view="lHh Lpr lFf">
-        <q-page-container>
-            <q-page class="flex flex-center">
-                <q-card class="my-card">
-                    <form @submit.prevent.stop="login">
-                        <q-card-section class="bg-secondary text-white">
-                            <div class="text-h6">{{$t('label.login')}}</div>
-                            {{error}}
-                        </q-card-section>
-
-                        <q-separator/>
-
-                        <q-card-section style="min-width: 400px">
-                            <q-input v-model="acc.email" :hint="$t('placeholder.email')"/>
-                            <q-input v-model="acc.password" type="password" :hint="$t('placeholder.password')"/>
-                        </q-card-section>
-
-                        <q-separator class="q-mt-sm q-mb-sm"/>
-
-                        <q-card-actions align="right">
-                            <q-btn color="teal" type="submit">{{$t('button.login')}}</q-btn>
-                            <q-btn color="red-7">{{$t('button.login_google')}}</q-btn>
-                        </q-card-actions>
-                    </form>
-                </q-card>
-            </q-page>
-        </q-page-container>
-    </q-layout>
+  <q-layout view="lHh Lpr lFf">
+    <q-page-container>
+      <q-page class="flex flex-center">
+        <q-card class="my-card">
+          <form @submit.prevent.stop="login">
+            <q-card-section class="bg-secondary text-white">
+              <div class="text-h6">{{$t('label.login')}}</div>
+            </q-card-section>
+            <q-separator/>
+            <validation-observer ref="observer" slim v-slot="{invalid, handleSubmit}">
+              <q-card-section style="min-width: 400px">
+                <form-group-item v-model="acc.email" label="Email" rules="required|email|max:100" name="email"
+                                 :hint="$t('placeholder.email')"/>
+                <form-group-item v-model="acc.password" type="password" label="Password" rules="required|max:100"
+                                 name="password"
+                                 :hint="$t('placeholder.password')"/>
+              </q-card-section>
+              <q-separator class="q-mt-sm q-mb-sm"/>
+              <q-card-actions align="right">
+                <form-group-action :label="$t('button.login')" @submit="handleSubmit(login)"/>
+              </q-card-actions>
+            </validation-observer>
+          </form>
+        </q-card>
+      </q-page>
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import FormGroupItem from 'components/common/FormGroupItem';
+  import FormGroupAction from 'components/common/FormGroupAction';
 
-export default {
-  name: 'Login',
-  data: () => ({
-    acc: {
-      email: 'luong@test.com',
-      password: '123@123a'
-    }
-  }),
-  methods: {
-    login () {
-      this.$store.dispatch('user/LOGIN', this.acc)
-    }
-  },
-  computed: {
-    ...mapState(
-      'user', ['error']
-    )
-  },
-  watch: {
-    error () {
-      if (this.error) {
-        if (Array.isArray(this.error)) {
-          this.error.forEach(({ msg }) => {
-            this.$q.notify({
-              color: 'negative',
-              message: msg,
-              position: 'top-right',
-              icon: 'warning',
-              timeout: 2000
-            })
-          })
-        } else {
-          this.$q.notify({
-            color: 'negative',
-            message: this.error,
-            position: 'top-right',
-            icon: 'warning',
-            timeout: 2000
-          })
+  export default {
+    name: 'Login',
+    components: {FormGroupAction, FormGroupItem},
+    data: () => ({
+      acc: {
+        email: '',
+        password: '',
+      },
+    }),
+    methods: {
+      async login() {
+        const response = await this.$store.dispatch('user/LOGIN', this.acc);
+
+        if (response.errors && !Array.isArray(response.errors)) {
+          this.$refs.observer.setErrors({
+            email: [response.errors],
+          });
         }
-
-        this.$store.commit('user/setError', null)
-      }
+      },
     }
-  }
-}
+  };
 </script>

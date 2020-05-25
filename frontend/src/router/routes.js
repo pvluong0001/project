@@ -1,3 +1,9 @@
+import calendar from 'src/router/particles/calendar';
+import document from 'src/router/particles/document';
+import profile from 'src/router/particles/profile';
+import group from 'src/router/particles/group';
+import user from 'src/router/particles/user';
+
 const routes = [
   {
     path: '/',
@@ -12,6 +18,7 @@ const routes = [
   {
     path: '/admin',
     component: () => import('layouts/MainLayout.vue'),
+    name: 'dashboard',
     meta: {
       requiresAuth: true
     },
@@ -20,45 +27,11 @@ const routes = [
         path: '',
         component: () => import('pages/Admin/Dashboard')
       },
-      {
-        path: 'calendar',
-        component: () => import('pages/Admin/Calendar/Index')
-      },
-      {
-        path: 'document',
-        component: () => import('pages/Admin/Document/Index'),
-        name: 'document'
-      },
-      {
-        path: 'document/create',
-        component: () => import('pages/Admin/Document/Create'),
-        name: 'document-create'
-      },
-      {
-        path: 'document/:id/create',
-        component: () => import('pages/Admin/Document/Clone'),
-        name: 'document-clone'
-      },
-      {
-        path: 'document/:id/preview',
-        component: () => import('pages/Admin/Document/Preview'),
-        name: 'document-preview'
-      },
-      {
-        path: 'profile',
-        component: () => import('pages/Admin/Profile/Index'),
-        name: 'profile'
-      },
-      {
-        path: 'group',
-        component: () => import('pages/Admin/Group/Index'),
-        name: 'group'
-      },
-      {
-        path: 'user',
-        component: () => import('pages/Admin/User/Index'),
-        name: 'user'
-      }
+      ...calendar,
+      ...document,
+      ...profile,
+      ...group,
+      ...user
     ]
   }
 ]

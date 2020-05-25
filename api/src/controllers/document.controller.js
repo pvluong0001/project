@@ -1,11 +1,13 @@
 import Document from '@models/document.model';
 import { validationResult } from 'express-validator';
+import { acl } from '@helpers/config-route.helper';
 
 export async function index(req, res) {
-  const {query = {}} = req.query;
   const data = await Document.find({
     $or: [
-      JSON.parse(query),
+      {
+        isRoot: true
+      },
       {
         author: req.user._id
       }
@@ -19,6 +21,13 @@ export async function index(req, res) {
 }
 
 export async function store(req, res) {
+  const roles = await acl.userRoles(req.user._id);
+  if (!roles.includes('root') && req.body.isRoot) {
+    return res.status(403).json({
+      message: 'Permission denied'
+    })
+  }
+
   const validateResult = validationResult(req);
   if(!validateResult.isEmpty()) {
     return res.status(422).json({errors: validateResult.array()})

@@ -1,9 +1,5 @@
 import axios from 'axios'
 
-const client = axios.create({
-  baseURL: process.env.API_URL
-})
-
 async function get (url, query = null) {
   try {
     const response = await client.get(url, {

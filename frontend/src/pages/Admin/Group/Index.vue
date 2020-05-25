@@ -1,12 +1,15 @@
 <template>
   <q-card>
     <q-card-section>
-      <div class="row">
-        <div class="col-8">
-          <div class="text-h5">Group management</div>
-        </div>
-        <div class="col-4 text-right">
-          <q-btn color="teal" class="on-right" label="Create group" @click="createModal = true"/>
+      <div class="row justify-between">
+        <div class="text-h5">Group management</div>
+        <div class="q-gutter-sm">
+          <q-btn color="teal" label="Create group" @click="createModal = true"/>
+          <btn-remember
+            color="purple"
+            to="/admin/group/skills"
+          />
+          <q-btn color="purple" label="Build skills"/>
         </div>
       </div>
     </q-card-section>
@@ -16,7 +19,7 @@
           <div class="q-mr-md">
             <q-input ref="filter" filled v-model="filter" label="Filter">
               <template v-slot:append>
-                <q-icon v-if="filter !== ''" name="clear" class="cursor-pointer" @click="resetFilter" />
+                <q-icon v-if="filter !== ''" name="clear" class="cursor-pointer" @click="resetFilter"/>
               </template>
             </q-input>
             <q-tree
@@ -61,16 +64,15 @@
       <q-card style="min-width: 600px;">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Create new group</div>
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
+          <q-space/>
+          <q-btn icon="close" flat round dense v-close-popup/>
         </q-card-section>
 
         <q-card-section>
           <q-form ref="form">
             <form-group label="Group">
               <group-select
-                @select-group="($value) => {formData.parent = $value}"
-                :model="formData.parent"
+                v-model="formData.parent"
               />
             </form-group>
             <form-group label="Name">
@@ -84,9 +86,10 @@
               />
             </form-group>
             <form-group label="Description">
-              <q-input type="textarea" v-model="formData.description" filled dense placeholder="Enter description of group"
-                :rules="[val => !!val || 'Description is required']"
-                ref="description"
+              <q-input type="textarea" v-model="formData.description" filled dense
+                       placeholder="Enter description of group"
+                       :rules="[val => !!val || 'Description is required']"
+                       ref="description"
               />
             </form-group>
             <form-group wrapperClass="text-right" action-area @submit="submitHandle">
@@ -94,90 +97,92 @@
           </q-form>
         </q-card-section>
       </q-card>
-  </q-dialog>
+    </q-dialog>
   </q-card>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import GroupSelect from 'components/Admin/Common/GroupSelect'
-import FormGroup from 'components/Admin/Common/FormGroup'
-import Confirm from 'components/Admin/Common/Confirm'
-import validateMixins from 'mixins/validate'
+  import {mapState, mapGetters} from 'vuex';
+  import GroupSelect from 'components/Admin/Common/GroupSelect';
+  import FormGroup from 'components/Admin/Common/FormGroup';
+  import Confirm from 'components/Admin/Common/Confirm';
+  import validateMixins from 'mixins/validate';
+  import BtnRemember from 'components/common/BtnRemember';
 
-export default {
-  name: 'GroupList',
-  meta: {
-    title: 'Group'
-  },
-  components: {
-    GroupSelect, FormGroup, Confirm
-  },
-  mixins: [validateMixins],
-  data: () => ({
-    selected: null,
-    filter: '',
-    createModal: false,
-    formData: {
-      parent: null,
-      name: '',
-      description: ''
+  export default {
+    name: 'GroupList',
+    meta: {
+      title: 'Group',
     },
-    confirm: false
-  }),
-  computed: {
-    ...mapState('group', ['list']),
-    ...mapGetters('group', ['treeGroup']),
-    groupDetailList () {
-      return this.flatArray(this.list).map(group => ({
-        _id: group._id,
-        name: group.name,
-        description: group.description
-      }))
-    }
-  },
-  created () {
-    this.$store.dispatch('group/getList')
-  },
-  methods: {
-    flatArray (array) {
-      if (!array.length) {
-        return []
-      }
-
-      return array.reduce((arr, element) => {
-        arr = arr.concat(element)
-        Array.isArray(element.children) && (arr = arr.concat(this.flatArray(element.children)))
-
-        return arr
-      }, [])
+    components: {
+      BtnRemember,
+      GroupSelect, FormGroup, Confirm,
     },
-    resetFilter () {
-      this.filter = ''
-      this.$refs.filter.focus()
+    mixins: [validateMixins],
+    data: () => ({
+      selected: null,
+      filter: '',
+      createModal: false,
+      formData: {
+        parent: null,
+        name: '',
+        description: '',
+      },
+      confirm: false,
+    }),
+    computed: {
+      ...mapState('group', ['list']),
+      ...mapGetters('group', ['treeGroup']),
+      groupDetailList() {
+        return this.flatArray(this.list).map(group => ({
+          _id: group._id,
+          name: group.name,
+          description: group.description,
+        }));
+      },
     },
-    async submitHandle () {
-      const result = await this.validateForm()
+    created() {
+      this.$store.dispatch('group/getList');
+    },
+    methods: {
+      flatArray(array) {
+        if (!array.length) {
+          return [];
+        }
 
-      if (result) {
-        const response = await this.$store.dispatch('group/create', this.formData)
+        return array.reduce((arr, element) => {
+          arr = arr.concat(element);
+          Array.isArray(element.children) && (arr = arr.concat(this.flatArray(element.children)));
 
-        if (response) {
-          this.$store.dispatch('group/getList')
-          this.createModal = false
-          this.formData = {
-            parent: null,
-            name: '',
-            description: ''
+          return arr;
+        }, []);
+      },
+      resetFilter() {
+        this.filter = '';
+        this.$refs.filter.focus();
+      },
+      async submitHandle() {
+        const result = await this.validateForm();
+
+        if (result) {
+          const response = await this.$store.dispatch('group/create', this.formData);
+
+          if (response) {
+            this.$store.dispatch('group/getList');
+            this.createModal = false;
+            this.formData = {
+              parent: null,
+              name: '',
+              description: '',
+            };
           }
         }
-      }
+      },
+      handleDeleteGroup() {
+        console.log(this.selected);
+      },
     },
-    handleDeleteGroup () {
-      console.log(this.selected)
-    }
-  }
-}
+  };
 </script>
 
 <style>

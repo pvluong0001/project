@@ -98,14 +98,14 @@ export default {
         return
       }
 
-      const result = await this.$store.dispatch('document/create', {
+      const response = await this.$store.dispatch('document/create', {
         content: this.editor,
         extraData: this.extraData,
         name: this.name,
         isRoot: true
       })
 
-      if (result) {
+      if (response.isSuccess) {
         this.$q.notify({
           color: 'teal',
           message: 'Create document success!',
@@ -118,7 +118,7 @@ export default {
 
       this.$q.notify({
         color: 'negative',
-        message: 'Create document failed!',
+        message: result.message || 'Create document failed!',
         position: 'top-right'
       })
     },

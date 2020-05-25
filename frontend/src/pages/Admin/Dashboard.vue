@@ -34,11 +34,6 @@ export default {
       const test = `<span style="color: red" disabled>${this.acc.email}</span>`
       return 'What you see is :id you get. '.replace(':id', test)
     }
-  },
-  methods: {
-    login () {
-      this.$store.dispatch('user/LOGIN', this.acc)
-    }
   }
 }
 </script>

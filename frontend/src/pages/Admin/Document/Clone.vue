@@ -69,8 +69,8 @@ export default {
     const documentId = this.$route.params.id
     const response = await this.$store.dispatch('document/getDetail', documentId)
 
-    if (response) {
-      const data = response.data
+    if (response.isSuccess) {
+      const data = response.result.data
       this.document = JSON.parse(JSON.stringify(data))
       this.name = data.name
 
