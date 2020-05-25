@@ -22,6 +22,11 @@
 <script>
   export default {
     name: 'UserOptions',
+    methods: {
+      logout() {
+        this.$store.dispatch('user/LOGOUT');
+      }
+    }
   };
 </script>
 

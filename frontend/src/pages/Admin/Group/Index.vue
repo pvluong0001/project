@@ -7,9 +7,9 @@
           <q-btn color="teal" label="Create group" @click="createModal = true"/>
           <btn-remember
             color="purple"
-            to="/admin/group/skills"
+            to="/admin/group/skill"
+            label="Skill"
           />
-          <q-btn color="purple" label="Build skills"/>
         </div>
       </div>
     </q-card-section>

@@ -5,7 +5,7 @@ export default [
     name: 'group'
   },
   {
-    path: 'group/skills',
+    path: 'group/skill',
     component: () => import('pages/Admin/Group/Skill')
   }
 ]

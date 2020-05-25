@@ -7,7 +7,7 @@ export function flatArray (array) {
   }, [])
 }
 
-export function tree (data, root) {
+export function tree (data, root, forChart = false) {
   var t = {}
 
   data.forEach(o => {
@@ -17,13 +17,15 @@ export function tree (data, root) {
     t[o.parent].children.push(t[o._id])
   })
   if(t[root]) {
-    return t[root].children
+    return forChart ? [t[root]] : t[root].children
   }
 
   const baseKeys = data.map(item => item.id)
-  const keys = Object.keys(t)
-  const rootKey = keys.filter(key => !baseKeys.includes(key))
-  return t[rootKey].children
+  const result = Object.entries(t).filter(([key, value]) => {
+    return !baseKeys.includes(key)
+  });
+
+  return result.map(item => item[1])
 }
 
 export function formatDateToVN (date) {

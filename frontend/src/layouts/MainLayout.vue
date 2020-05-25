@@ -75,10 +75,7 @@
       ...mapState('user', ['isLogged', 'user']),
     },
     methods: {
-      ...mapActions('user', ['loadUser']),
-      logout() {
-        this.$store.dispatch('user/LOGOUT');
-      },
+      ...mapActions('user', ['loadUser'])
     },
   };
 </script>

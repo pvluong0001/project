@@ -6,20 +6,6 @@
         <slot name="btnAction"></slot>
       </template>
     </q-input>
-    <template v-if="multiSelect">
-      <div class="q-mt-md q-gutter-sm">
-        <q-badge v-for="(item, index) in computedValue" :key="item" @click="openConfirm(item)">
-          <span class="q-pa-sm cursor-pointer">{{item}} <q-icon name="cancel" size="sm"/></span>
-        </q-badge>
-      </div>
-
-      <confirm
-        title="Do you want to remove this group?"
-        :confirm="confirm"
-        @cancel="confirm = false"
-        @confirm="$emit('removeGroup', selected) && (confirm = false)"
-      />
-    </template>
 
     <q-dialog v-model="modal">
       <q-card style="min-width: 400px">
