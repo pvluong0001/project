@@ -3,6 +3,7 @@ export async function LOGIN({commit, dispatch}, payloads) {
   if (response.isSuccess) {
     const data = response.result.data;
 
+    localStorage.removeItem(process.env.TOKEN_NAME);
     localStorage.setItem(process.env.TOKEN_NAME, data.token);
     this._vm.$axios.defaults.headers.common.Authorization = `Bearer ${data.token}`;
 
@@ -125,4 +126,8 @@ export async function destroy({state, commit}, userId) {
       position: 'top-right'
     });
   }
+}
+
+export async function create(context, payload) {
+  return this._vm.$axios.post('/user', payload);
 }

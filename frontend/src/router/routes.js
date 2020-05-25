@@ -60,9 +60,14 @@ const routes = [
         name: 'user'
       },
       {
-        path: 'user/:id',
+        path: 'user/:id/detail',
         component: () => import('pages/Admin/User/Detail'),
         name: 'user-detail'
+      },
+      {
+        path: 'user/create',
+        component: () => import('pages/Admin/User/Create'),
+        name: 'user-create'
       }
     ]
   }

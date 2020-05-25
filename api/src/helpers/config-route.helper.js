@@ -24,8 +24,7 @@ export function configRouter(app) {
     }
   ])
 
-  acl.addUserRoles('5eb4f62528506c154b166666', 'root')
-  acl.addUserRoles('5eb503b528506c154b166667', 'staff')
+  acl.addUserRoles('5ebc153264cefd00b3b02a74', 'root')
 
   const router = Router();
 

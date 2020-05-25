@@ -54,7 +54,9 @@ export function mapErrorHandleMongoose(err) {
   switch(err.code) {
     case 11000:
       let column = Object.keys(err.keyPattern)[0];
-      return `${column} is exists!`;
+      return {
+        [column]: [`${column} is exists!`]
+      };
     default:
       return err.message;
   }

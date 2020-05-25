@@ -1,6 +1,8 @@
-import User from '@models/user.model';
+import User, {columns} from '@models/user.model';
 import { validationResult } from 'express-validator';
 import pick from 'lodash/pick';
+import {acl} from '@helpers/config-route.helper';
+import {mapErrorHandleMongoose} from '@helpers/db.helper';
 
 export async function index(req, res) {
   const data = await User.find({_id: {$ne: req.user._id}});
@@ -9,6 +11,30 @@ export async function index(req, res) {
     data,
     message: 'OK'
   })
+}
+
+export async function store(req, res) {
+  try {
+    const validateResult = validationResult(req);
+    if(!validateResult.isEmpty()) {
+      return res.status(422).json({errors: validateResult.array()})
+    }
+    const data = await User.store({
+      ...req.body
+    });
+
+    acl.addUserRoles(data._id.toString(), 'staff')
+
+    return res.json({
+      data,
+      message: data ? 'Create success!' : 'Create failed!'
+    });
+  } catch(e) {
+    return res.status(422).json({
+      errors: mapErrorHandleMongoose(e)
+    })
+  }
+
 }
 
 export async function update(req, res) {

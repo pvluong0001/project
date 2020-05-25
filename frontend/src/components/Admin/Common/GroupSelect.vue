@@ -3,8 +3,23 @@
     <q-input class="full-width" dense readonly filled :value="getGroupNameById(computedValue)">
       <template v-slot:after>
         <q-btn dense color="teal" label="Select group" class="q-pa-xs" @click="modal = true"/>
+        <slot name="btnAction"></slot>
       </template>
     </q-input>
+    <template v-if="multiSelect">
+      <div class="q-mt-md q-gutter-sm">
+        <q-badge v-for="(item, index) in computedValue" :key="item" @click="openConfirm(item)">
+          <span class="q-pa-sm cursor-pointer">{{item}} <q-icon name="cancel" size="sm"/></span>
+        </q-badge>
+      </div>
+
+      <confirm
+        title="Do you want to remove this group?"
+        :confirm="confirm"
+        @cancel="confirm = false"
+        @confirm="$emit('removeGroup', selected) && (confirm = false)"
+      />
+    </template>
 
     <q-dialog v-model="modal">
       <q-card style="min-width: 400px">
@@ -35,7 +50,7 @@
         </q-card-section>
         <q-card-section class="text-right">
           <q-btn label="Pick" color="teal" class="q-mr-sm" @click="selectGroupHandle"/>
-          <q-btn color="grey" label="Cancel" v-close-popup/>
+          <q-btn color="grey" label="Reset" @click="$emit('cancel')" v-close-popup/>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -44,19 +59,23 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import Confirm from 'components/Admin/Common/Confirm';
 
 export default {
+  components: {Confirm},
   data: () => ({
     text: '',
     modal: false,
-    selectedGroupName: ''
+    confirm: false,
+    selected: null
   }),
   props: {
     value: [String, Array],
     multiSelect: {
       type: Boolean,
       default: false
-    }
+    },
+    objValue: Array
   },
   created () {
     this.$store.dispatch('group/getList')
@@ -68,7 +87,6 @@ export default {
     }),
     computedValue: {
       get() {
-        console.log(this.value);
         return this.value
       },
       set(val) {
@@ -78,11 +96,14 @@ export default {
   },
   methods: {
     selectGroupHandle () {
-      this.selectedGroupName = this.getGroupNameById(this.selected)
       this.modal = false
     },
     getGroupNameById (groupId) {
       return this.flattenGroup.find(group => group._id === groupId)?.name
+    },
+    openConfirm(item) {
+      this.selected = item;
+      this.confirm = true;
     }
   }
 }

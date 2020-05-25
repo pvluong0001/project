@@ -1,5 +1,8 @@
 <template>
   <q-card>
+    <q-card-section class="text-right">
+      <q-btn color="teal" label="Create" :to="{name: 'user-create'}"/>
+    </q-card-section>
     <q-card-section>
       <q-table
         grid
@@ -20,7 +23,7 @@
         </template>
 
         <template v-slot:item="props">
-          <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
+          <div class="q-pa-xs col-xs-12 col-sm-6 col-md-3">
             <q-card>
               <q-card-section class="text-center">
                 <strong>{{props.row.name}}</strong>
@@ -75,14 +78,7 @@
       await this.$store.dispatch('user/getList');
     },
     computed: {
-      ...mapState('user', ['list']),
-      cardContainerClass() {
-        if (this.$q.screen.gt.xs) {
-          return 'grid-masonry grid-masonry--' + (this.$q.screen.gt.sm ? '3' : '2');
-        }
-
-        return void 0;
-      },
+      ...mapState('user', ['list'])
     },
     data: () => ({
       filter: '',
@@ -111,6 +107,7 @@
           field: 'fullName'
         }
       ],
+      dialog: false
     }),
     methods: {
       fetchImage (avatar = null) {

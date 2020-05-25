@@ -16,7 +16,14 @@ export function tree (data, root) {
     t[o.parent].children = t[o.parent].children || []
     t[o.parent].children.push(t[o._id])
   })
-  return t[root].children
+  if(t[root]) {
+    return t[root].children
+  }
+
+  const baseKeys = data.map(item => item.id)
+  const keys = Object.keys(t)
+  const rootKey = keys.filter(key => !baseKeys.includes(key))
+  return t[rootKey].children
 }
 
 export function formatDateToVN (date) {

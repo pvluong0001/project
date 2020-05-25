@@ -37,8 +37,8 @@
     components: {FormGroupAction, FormGroupItem},
     data: () => ({
       acc: {
-        email: 'user01@gmail.com',
-        password: '123@123a',
+        email: '',
+        password: '',
       },
     }),
     methods: {
