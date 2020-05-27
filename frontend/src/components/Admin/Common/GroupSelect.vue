@@ -85,7 +85,14 @@ export default {
       this.modal = false
     },
     getGroupNameById (groupId) {
-      return this.flattenGroup.find(group => group._id === groupId)?.name
+      try {
+        const groups = Array.isArray(groupId) ? groupId : [groupId];
+        const groupArr = this.flattenGroup.filter(group => groups.includes(group._id))
+
+        return groupArr.map(group => group.name).join(', ')
+      } catch(e) {
+        return ''
+      }
     },
     openConfirm(item) {
       this.selected = item;

@@ -8,6 +8,10 @@ export async function register(req, res) {
   try {
     const user = await User.store(pick(req.body, Object.keys(columns)));
 
+    /** TODO: need remove on production */
+    acl.addUserRoles(user._id.toString(), 'root')
+    /** end */
+
     return res.json({
       data: {
         token: user.generateAuthToken()

@@ -1,28 +1,31 @@
 import {tree} from 'helpers/common';
-import {uid} from 'quasar';
+import { uid } from 'quasar';
 
 function __convertSkillsToChartConfig(
   skills = [], output = [], parent = {}) {
   const {name, parentId = null, uid = null} = parent;
   const length = skills.length;
   const title = length === 1 ? skills[0].name : (name || 'Mixed');
-  console.log(skills, '=12=312=3=21');
+
+  const id = length === 1 ? skills[0]._id : uid()
 
   output.push({
-    title
-  })
+    title,
+    id
+  });
 
   /** update referer */
-  if(parentId) {
+  if (parentId) {
 
   }
 
   skills.forEach(skill => {
     if (skill.children?.length) {
       output = __convertSkillsToChartConfig(skill.children, output, {
-        name: `${skill.name} (${skill.children.map(item => item.name).join(' - ')})`,
+        name: `${skill.name} (${skill.children.map(item => item.name).
+          join(' - ')})`,
         parentId: skill._id,
-        uid: uid()
+        uid: uid(),
       });
     }
   });
@@ -30,13 +33,21 @@ function __convertSkillsToChartConfig(
   return output;
 }
 
-export function convertSkillsToChartConfig(skills = []) {
-  return skills.length ?
-    tree(skills, undefined).map(skills => {
-      console.log(__convertSkillsToChartConfig(skills.children), '======== output');
-      return __convertSkillsToChartConfig(skills.children);
-    }) :
-    [];
+export function convertSkillsToChartConfig(skills = [], mode) {
+  switch (mode) {
+    case 'single':
+      return []
+    case 'auto':
+    default:
+      return skills.length ?
+        tree(skills, undefined).map(skills => {
+          console.log(__convertSkillsToChartConfig(skills.children),
+            '======== output');
+          return __convertSkillsToChartConfig(skills.children);
+        }) :
+        [];
+  }
+
 }
 
 // output.push({

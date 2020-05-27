@@ -53,7 +53,7 @@ module.exports = function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Notify', 'Meta', 'Dialog'
+        'Notify', 'Meta', 'Dialog', 'Loading'
       ]
     },
 

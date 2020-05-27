@@ -3,6 +3,7 @@ import authRoute from '@routes/auth.route';
 import documentRoute from '@routes/document.route';
 import groupRoute from '@routes/group.route';
 import userRoute from '@routes/user.route';
+import skillRoute from '@routes/skill.route';
 import { fetchExplorerRoute } from './base.helper';
 import authMiddleware from '@middlewares/auth.middleware';
 import mongoose from 'mongoose';
@@ -24,8 +25,6 @@ export function configRouter(app) {
     }
   ])
 
-  acl.addUserRoles('5ebc153264cefd00b3b02a74', 'root')
-
   const router = Router();
 
   router.get('/', (req, res) => {
@@ -35,6 +34,7 @@ export function configRouter(app) {
   router.use('/auth', authRoute);
   router.use('/group', groupRoute);
   router.use('/user', userRoute);
+  router.use('/skill', skillRoute)
 
   router.use('/document', [authMiddleware, acl.middleware(3, (req) => req.user._id)], documentRoute);
 
@@ -48,7 +48,8 @@ export function configRouter(app) {
           auth: authRoute,
           documentRoute,
           groupRoute,
-          userRoute
+          userRoute,
+          skillRoute
         }, 'api/v1')
       })
     })

@@ -24,3 +24,21 @@ function _convertRoute(router, basePath) {
     }
   })
 }
+
+export function tree(data, root, forChart = false) {
+  var t = {}
+
+  data.forEach(o => {
+    Object.assign(t[o._id] = t[o._id] || {}, o)
+    t[o.parent] = t[o.parent] || {}
+    t[o.parent].children = t[o.parent].children || []
+    t[o.parent].children.push(t[o._id])
+  })
+
+  const baseKeys = data.map(item => item._id.toString());
+  const result = Object.entries(t).filter(([key, value]) => {
+    return !baseKeys.includes(key)
+  });
+
+  return result.map(item => item[1])
+}
