@@ -5,7 +5,7 @@ export async function LOGIN({commit, dispatch}, payloads) {
 
     localStorage.removeItem(process.env.TOKEN_NAME);
     localStorage.setItem(process.env.TOKEN_NAME, data.token);
-    this._vm.$axios.defaults.headers.common.Authorization = `Bearer ${data.token}`;
+    this._vm.$axios.defaults.headers.Authorization = `Bearer ${data.token}`;
 
     this._vm.$q.notify({
       color: 'teal',

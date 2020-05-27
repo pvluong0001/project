@@ -22,13 +22,18 @@ export async function store(req, res) {
     }
   }).lean()
 
-  const skillsConvert = skillService.convertSkills(dataSkills, mode)
+  try {
+    const skillsConvert = skillService.convertSkills(dataSkills, mode)
 
-  return res.json({
-    data: skillsConvert,
-    message: 'Create success'
-  })
-
+    return res.json({
+      data: skillsConvert,
+      message: 'Create success'
+    })
+  } catch(e) {
+    return res.status(500).json({
+      message: 'Cannot create skill chart'
+    })
+  }
 
   if(!validateResult.isEmpty()) {
     return res.status(422).json({errors: validateResult.array()})

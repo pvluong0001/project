@@ -7,7 +7,7 @@ export function fetchExplorerRoute(routers = {}, basePath = '/') {
     return {
       ...result,
       [item]: _convertRoute(routers[item], basePath)
-    } 
+    }
   }, {})
 }
 
@@ -36,6 +36,24 @@ export function tree(data, root, forChart = false) {
   })
 
   const baseKeys = data.map(item => item._id.toString());
+  const result = Object.entries(t).filter(([key, value]) => {
+    return !baseKeys.includes(key)
+  });
+
+  return result.map(item => item[1])
+}
+
+export function tree2(data, root, forChart = false) {
+  var t = {}
+
+  data.forEach(o => {
+    Object.assign(t[o.id] = t[o.id] || {}, o)
+    t[o.parent] = t[o.parent] || {}
+    t[o.parent].children = t[o.parent].children || []
+    t[o.parent].children.push(t[o.id])
+  })
+
+  const baseKeys = data.map(item => item.id.toString());
   const result = Object.entries(t).filter(([key, value]) => {
     return !baseKeys.includes(key)
   });

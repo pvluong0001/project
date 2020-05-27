@@ -4,6 +4,7 @@ import { Notify } from 'quasar'
 const token = localStorage.getItem(process.env.TOKEN_NAME)
 
 export default async ({ Vue, store }) => {
+  console.log('hererer');
   Vue.prototype.$axios = axios
 
   Vue.prototype.$axios.interceptors.response.use(response => {
