@@ -1,4 +1,4 @@
-import {tree, tree2} from '@helpers/base.helper';
+import {tree} from '@helpers/base.helper';
 import {v4} from 'uuid';
 
 export function convertSkills(skills, mode = 'auto') {
@@ -9,9 +9,7 @@ export function convertSkills(skills, mode = 'auto') {
     case 'auto':
       const treeSkills = tree(skills, undefined);
 
-      console.log(treeSkills, '=======');
-
-      return tree2(__convertSkillsChart(treeSkills))[0].children;
+      return __convertSkillsChart(treeSkills);
   }
 }
 
@@ -20,15 +18,26 @@ function __convertSkillsChart(skills = [], output = [], parent = {}) {
 
   if(skillsLength === 1) {
     const skill = skills[0]
+    const id = v4()
 
     if(skill.children && skill.children.length) {
       const hasId = skill.hasOwnProperty('_id')
-      const id = v4()
+
 
       if(parent.hasParent) {
         const parentIndex = output.findIndex(item => item.id === parent.parentId)
 
-        output[parentIndex].ref = id
+        output[parentIndex].ref = [id]
+
+        if(!output[parentIndex].label) {
+          output[parentIndex].label = []
+        }
+
+        output[parentIndex].label.push({
+          refId: id,
+          name: skill.name,
+          isRef: false
+        })
       }
 
       const arrName = skill.children.map(item => item.name)
@@ -36,7 +45,6 @@ function __convertSkillsChart(skills = [], output = [], parent = {}) {
       output.push({
         title: `${hasId ? skill.name : 'Mixed'} (${arrName.join(' - ')})`,
         id: id,
-        label: arrName,
         parent: parent.hasParent ? parent.parentId: null
       })
 
@@ -45,6 +53,20 @@ function __convertSkillsChart(skills = [], output = [], parent = {}) {
         hasParent: true,
         parentName: skill.name
       })
+    } else {
+      if(parent.hasParent) {
+        const parentIndex = output.findIndex(item => item.id === parent.parentId)
+
+        if(!output[parentIndex].label) {
+          output[parentIndex].label = []
+        }
+
+        output[parentIndex].label.push({
+          refId: id,
+          name: skill.name,
+          isRef: true
+        })
+      }
     }
   } else {
     const id = v4()
@@ -60,8 +82,9 @@ function __convertSkillsChart(skills = [], output = [], parent = {}) {
     }
 
     skills.forEach(skill => {
+      const id = v4()
+
       if(skill.children && skill.children.length) {
-        const id = v4()
 
         if(parent.hasParent) {
           const parentIndex = output.findIndex(item => item.id === parent.parentId)
@@ -71,6 +94,16 @@ function __convertSkillsChart(skills = [], output = [], parent = {}) {
           }
 
           output[parentIndex].ref.push(id)
+
+          if(!output[parentIndex].label) {
+            output[parentIndex].label = []
+          }
+
+          output[parentIndex].label.push({
+            refId: id,
+            name: skill.name,
+            isRef: true
+          })
         }
 
         const arrName = skill.children.map(item => item.name)
@@ -78,8 +111,7 @@ function __convertSkillsChart(skills = [], output = [], parent = {}) {
         output.push({
           title: `${skill.name} (${arrName.join(' - ')})`,
           id,
-          label: arrName,
-          parent: parent.hasParent ? parent.parentId : null
+          parent: parent.hasParent ? parent.parentId : null,
         })
 
         output = __convertSkillsChart(skill.children, output, {
@@ -87,6 +119,20 @@ function __convertSkillsChart(skills = [], output = [], parent = {}) {
           hasParent: true,
           parentName: skill.name
         })
+      } else {
+        if(parent.hasParent) {
+          const parentIndex = output.findIndex(item => item.id === parent.parentId)
+
+          if(!output[parentIndex].label) {
+            output[parentIndex].label = []
+          }
+
+          output[parentIndex].label.push({
+            refId: id,
+            name: skill.name,
+            isRef: false
+          })
+        }
       }
     })
   }

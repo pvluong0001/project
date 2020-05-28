@@ -8,22 +8,11 @@
   >
     <q-scroll-area class="fit">
       <q-list padding>
-        <q-item
-          v-ripple
-          clickable
-          :to="path"
-          exact
-          @click.native="addRememberTab(label, path)"
-          v-for="({label, path, icon}, index) in menu"
+        <menu-item
+          v-for="(item, index) in menu"
           :key="index"
-        >
-          <q-item-section avatar>
-            <q-icon color="grey" :name="icon"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>{{label}}</q-item-label>
-          </q-item-section>
-        </q-item>
+          :menu="item"
+        />
       </q-list>
     </q-scroll-area>
   </q-drawer>
@@ -31,14 +20,16 @@
 
 <script>
   import menu from 'src/config/menu';
+  import MenuItem from 'components/Admin/MenuItem';
 
   export default {
     name: 'MainMenu',
-    props: ['leftDrawerOpen'],
+    components: {MenuItem},
+    props: ['value'],
     computed: {
       computedValue: {
         get() {
-          return this.leftDrawerOpen
+          return this.value
         },
         set(val) {
           this.$emit('input', val)

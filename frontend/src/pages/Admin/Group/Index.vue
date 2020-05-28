@@ -128,7 +128,7 @@
         name: '',
         description: '',
       },
-      confirm: false,
+      confirm: false
     }),
     computed: {
       ...mapState('group', ['list']),

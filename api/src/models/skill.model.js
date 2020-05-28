@@ -5,6 +5,10 @@ export const columns = {
   name: {
     type: String,
     required: true
+  },
+  mode: {
+    type: String,
+    required: true
   }
 };
 

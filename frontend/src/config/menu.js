@@ -6,13 +6,27 @@ export default [
   },
   {
     label: 'User management',
-    path: '/admin/user',
-    icon: 'home'
+    icon: 'home',
+    children: [
+      {
+        path: '/admin/user',
+        label: 'List'
+      },
+      {
+        path: '/admin/skill',
+        label: 'Skill'
+      }
+    ]
   },
   {
-    label: 'Group',
-    path: '/admin/group',
-    icon: 'home'
+    label: 'Group management',
+    icon: 'home',
+    children: [
+      {
+        path: '/admin/group',
+        label: 'List'
+      }
+    ]
   },
   {
     label: 'Calendar',
@@ -21,7 +35,12 @@ export default [
   },
   {
     label: 'Document',
-    path: '/admin/document',
-    icon: 'home'
+    icon: 'home',
+    children: [
+      {
+        path: '/admin/document',
+        label: 'List'
+      }
+    ]
   }
 ]

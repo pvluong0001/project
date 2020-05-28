@@ -8,7 +8,7 @@
     </q-input>
 
     <q-dialog v-model="modal">
-      <q-card style="min-width: 400px">
+      <q-card style="min-width: calc(100vw - 200px);">
         <q-card-section>
           <div class="text-h6">Pick group {{getGroupNameById(computedValue)}}</div>
         </q-card-section>
