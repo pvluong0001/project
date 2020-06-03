@@ -6,7 +6,7 @@ import * as skillService from '@services/skill.service';
 import {tree2} from '@helpers/base.helper';
 
 export async function index(req, res) {
-  const data = await Skill.getAll({});
+  const data = await Skill.find().populate('skills');
 
   res.json({
     data,
@@ -22,7 +22,6 @@ export async function store(req, res) {
   }
 
   const {skills, mode, name} = req.body;
-  let result = [];
 
   const dataSkills = await Group.find({
     _id: {
@@ -30,47 +29,12 @@ export async function store(req, res) {
     },
   }).lean();
 
-  try {
-    const skillsConvert = skillService.convertSkills(dataSkills, mode);
+  const {code, message, data} = await skillService.createSkill(dataSkills, mode, name);
 
-    /* transaction */
-    const session = await Skill.startSession();
-    session.startTransaction();
-
-    try {
-      const skill = await Skill.create({
-        name, mode,
-      });
-
-      const skillChart = SkillChart.create({
-        date: new Date(),
-        skills: skillsConvert,
-        skill: skill._id
-      })
-
-      result = tree2(skillsConvert)[0].children;
-
-      await session.commitTransaction();
-    } catch (e) {
-      session.abortTransaction()
-
-
-      return res.status(500).json({
-        message: 'Cannot create skill chart',
-      });
-    } finally {
-      session.endSession();
-    }
-
-    return res.json({
-      data: result,
-      message: 'Create success',
-    });
-  } catch (e) {
-    return res.status(500).json({
-      message: 'Cannot create skill chart',
-    });
-  }
+  return res.status(code).json({
+    message,
+    data
+  })
 }
 
 export async function update(req, res) {

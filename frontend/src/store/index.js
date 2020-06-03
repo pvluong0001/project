@@ -6,6 +6,8 @@ import user from './user'
 import helper from './helper'
 import document from './document'
 import group from './group'
+import skillStore from 'src/store/particles/skillStore';
+import userDetail from 'src/store/particles/userDetail';
 
 const vuexPersist = new VuexPersist({
   key: process.env.DATA_NAME,
@@ -27,7 +29,7 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       // example
-      user, helper, document, group
+      user, helper, document, group, skillStore, userDetail
     },
 
     // enable strict mode (adds overhead!)

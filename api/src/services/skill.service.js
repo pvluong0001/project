@@ -1,5 +1,7 @@
-import {tree} from '@helpers/base.helper';
+import {tree, tree2} from '@helpers/base.helper';
 import {v4} from 'uuid';
+import Skill from '@models/skill.model';
+import SkillChart from '@models/skillChart.model';
 
 export function convertSkills(skills, mode = 'auto') {
   switch (mode) {
@@ -138,4 +140,69 @@ function __convertSkillsChart(skills = [], output = [], parent = {}) {
   }
 
   return output;
+}
+
+export async function createSkill(dataSkills, mode, name) {
+  let data = [];
+
+  try {
+    /* transaction */
+    const session = await Skill.startSession();
+    session.startTransaction();
+
+    try {
+      const skill = await Skill.create({
+        name, mode,
+      });
+
+      const payloads = {
+        date: new Date(),
+        skill: skill._id
+      }
+
+      switch(mode) {
+        case 'auto':
+          const skillsConvert = convertSkills(dataSkills, mode);
+
+          payloads.skills = skillsConvert;
+          data = tree2(payloads.skills)[0].children;
+          break;
+        case 'single':
+        default:
+          payloads.skills = dataSkills.map(skill => ({
+            title: skill.name
+          }))
+          data = payloads.skills;
+          break;
+      }
+
+      const skillChart = SkillChart.create(payloads)
+
+      await session.commitTransaction();
+    } catch (e) {
+      console.log(e);
+      session.abortTransaction()
+
+      return {
+        code: 500,
+        message: 'Cannot create skill chart',
+        data
+      }
+    } finally {
+      session.endSession();
+    }
+
+    return {
+      code: 200,
+      message: 'Create skill success',
+      data
+    }
+  } catch (e) {
+    console.log(e);
+    return {
+      code: 500,
+      message: 'Cannot create skill chart',
+      data
+    }
+  }
 }

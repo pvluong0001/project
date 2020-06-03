@@ -2,17 +2,26 @@ export default {
   namespaced: true,
   // IMPORTANT: state must be a function so the module can be
   // instantiated multiple times
-  state: () => ({
-    mode: 'auto'
-  }),
+  state: function(){
+    return {
+      mode: 'single',
+      list: []
+    }
+  },
   actions: {
     async buildSkills(context, payloads) {
-      const response = await this._vm.$axios.post('skill', payloads)
+      return this._vm.$axios.post('skill', payloads)
+    },
+    async list({commit}) {
+      const response = await this._vm.$axios.get('skill');
 
-      console.log(response.result.data);
+      if(response.isSuccess) {
+        commit('setList', response.result.data)
+      }
     }
   },
   mutations: {
-    setMode: (state, mode) => state.mode = mode
+    setMode: (state, mode) => state.mode = mode,
+    setList: (state, payload) => state.list = payload
   }
 }

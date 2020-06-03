@@ -1,4 +1,4 @@
-const whiteList = ['http://localhost'];
+const whiteList = ['http://localhost', 'http://legal.com'];
 
 export default {
   origin(origin, callback) {

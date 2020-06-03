@@ -18,14 +18,14 @@ const routes = [
   {
     path: '/admin',
     component: () => import('layouts/MainLayout.vue'),
-    name: 'dashboard',
     meta: {
       requiresAuth: true
     },
     children: [
       {
         path: '',
-        component: () => import('pages/Admin/Dashboard')
+        component: () => import('pages/Admin/Dashboard'),
+        name: 'dashboard'
       },
       ...calendar,
       ...document,

@@ -5,11 +5,6 @@
         <div class="text-h5">Group management</div>
         <div class="q-gutter-sm">
           <q-btn color="teal" label="Create group" @click="createModal = true"/>
-          <btn-remember
-            color="purple"
-            to="/admin/group/skill"
-            label="Skill"
-          />
         </div>
       </div>
     </q-card-section>
@@ -44,7 +39,12 @@
             <q-tab-panel :name="group._id" v-for="group in groupDetailList" :key="group._id">
               <div class="text-h4 q-mb-md">{{group.name}}</div>
               <p>{{group.description}}</p>
-              <div class="text-right">
+              <div class="text-right q-gutter-sm">
+                <btn-remember
+                  label="Document"
+                  :tagLabel="`Documents - ${group.name}`"
+                  :to="`/admin/group/doc/${group._id}`"
+                />
                 <q-btn color="red-10" label="Delete" icon="warning" @click="confirm = true"/>
               </div>
             </q-tab-panel>

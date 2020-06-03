@@ -11,10 +11,6 @@ export default [
       {
         path: '/admin/user',
         label: 'List'
-      },
-      {
-        path: '/admin/skill',
-        label: 'Skill'
       }
     ]
   },
@@ -25,6 +21,10 @@ export default [
       {
         path: '/admin/group',
         label: 'List'
+      },
+      {
+        path: '/admin/group/skill',
+        label: 'Skill'
       }
     ]
   },

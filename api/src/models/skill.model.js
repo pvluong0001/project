@@ -12,7 +12,13 @@ export const columns = {
   }
 };
 
-const skillSchema = new Schema(columns, { timestamps: true } );
+const skillSchema = new Schema(columns, { timestamps: true, toJSON: { virtuals: true } } );
 skillSchema.plugin(crudPlugin);
+
+skillSchema.virtual('skills', {
+  ref: 'SkillChart',
+  localField: '_id',
+  foreignField: 'skill'
+})
 
 export default mongoose.model('Skill', skillSchema);

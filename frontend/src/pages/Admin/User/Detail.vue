@@ -31,11 +31,6 @@
         return this.$store.state.userDetail.user;
       },
     },
-    preFetch({store, currentRoute}) {
-      store.registerModule('userDetail', userDetail);
-
-      return store.dispatch('userDetail/getUserDetail', currentRoute.params.id);
-    },
     destroyed() {
       this.$store.unregisterModule('userDetail');
     },

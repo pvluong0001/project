@@ -3,21 +3,19 @@ import crudPlugin from '@models/plugins/crud';
 
 const skillConvertSchema = new Schema({
   id: {
-    type: String,
-    required: true
+    type: String
   },
   title: {
-    type: String,
-    required: true
+    type: String
   },
   parent: {
     type: String
   },
   ref: {
-    type: [Array, String]
+    type: Schema.Types.Mixed
   },
   label: {
-    type: [Array, String]
+    type: Schema.Types.Mixed
   }
 }, { timestamps: false, _id: false })
 

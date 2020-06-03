@@ -1,6 +1,6 @@
 export default {
   ROLE: {
-    ADMIN: 'admin',
+    ADMIN: 'root',
     STAFF: 'staff'
   }
 }
